@@ -1,0 +1,529 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Ritesh Pagare — AI Specialist • Portfolio</title>
+<meta name="description" content="Ritesh Pagare — AI Specialist. Portfolio: AI, Computer Vision, Android, Robotics, and product design." />
+<style>
+  /* ---------- Root variables & resets ---------- */
+  :root{
+    --bg:#071226; --surface:rgba(255,255,255,0.02); --muted:#9fb4c8;
+    --accent1:#6ee7ff; --accent2:#7ef0c7; --glass: rgba(255,255,255,0.03);
+    --radius:14px; --maxw:1200px; --ease:cubic-bezier(.2,.9,.25,1);
+    --ff: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0; font-family:var(--ff); background:linear-gradient(180deg,#041428,#071226);
+    color:#e7f1fb; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+    line-height:1.45;
+  }
+  a{color:inherit}
+  .wrap{max-width:var(--maxw); margin:28px auto; padding:18px; position:relative; z-index:2}
+  header{display:flex; align-items:center; justify-content:space-between; gap:12px}
+  .brand{display:flex; gap:12px; align-items:center}
+  .logo{width:56px;height:56px;border-radius:12px;display:grid;place-items:center;
+    background:linear-gradient(135deg,var(--accent2),var(--accent1));color:#032; font-weight:900}
+  nav{display:flex; gap:12px; align-items:center}
+  nav a{color:var(--muted); text-decoration:none; padding:8px 10px; border-radius:10px; font-weight:700}
+  nav a:hover{color:#fff; background:var(--glass)}
+  .theme-toggle{border:0;background:transparent;color:var(--muted); cursor:pointer; padding:8px; border-radius:8px}
+  /* ---------- hero with video ---------- */
+  .hero-wrap{position:relative;border-radius:18px; overflow:hidden; box-shadow: 0 18px 40px rgba(0,0,0,0.6); min-height:440px; display:grid; grid-template-columns:1fr 360px; gap:18px}
+  @media(max-width:980px){ .hero-wrap{grid-template-columns:1fr; min-height:360px} nav{display:none} header{align-items:flex-start} }
+  video#heroVideo{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:0; filter:brightness(0.45) saturate(1.05)}
+  .hero-overlay{position:absolute; inset:0; z-index:1; pointer-events:none}
+  .hero-content{position:relative; z-index:2; padding:28px}
+  .eyebadge{display:inline-flex; gap:8px; align-items:center; background:rgba(255,255,255,0.03); padding:8px 12px; border-radius:999px; color:var(--muted); font-weight:800}
+  h1{margin:12px 0 6px 0; font-size:36px; line-height:1.04}
+  .accent{background:linear-gradient(90deg,var(--accent2),var(--accent1)); -webkit-background-clip:text; background-clip:text; color:transparent; font-weight:900}
+  .type{font-family:ui-monospace, SFMono-Regular, SF Mono, "Segoe UI Mono", Roboto Mono; font-weight:800; color:var(--accent1); margin-top:6px}
+  .intro{color:var(--muted); margin-top:12px; max-width:64ch}
+  .buttons{margin-top:16px; display:flex; gap:10px; flex-wrap:wrap}
+  .btn{padding:10px 14px; border-radius:12px; font-weight:800; border:0; cursor:pointer; color:#022; background:linear-gradient(90deg,var(--accent1),var(--accent2)); text-decoration:none}
+  .btn-ghost{background:transparent;color:var(--muted); border:1px solid rgba(255,255,255,0.05)}
+  /* right card */
+  .profile{padding:18px; margin:18px; margin-right:28px; border-radius:12px; background:linear-gradient(180deg, rgba(255,255,255,0.015), transparent); z-index:2; align-self:start}
+  .avatar{height:220px;border-radius:10px;display:grid;place-items:center;background:linear-gradient(135deg,#063642,#072a3a); font-weight:900; font-size:20px}
+  .quick{display:flex; gap:10px; margin-top:12px}
+  .badge{padding:6px 8px;border-radius:999px;background:var(--glass); color:var(--muted); font-weight:800}
+  /* ---------- sections ---------- */
+  section{margin-top:28px}
+  h2{margin:0 0 8px 0; font-size:20px}
+  .card{border-radius:12px; padding:16px; background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent); box-shadow: 0 10px 30px rgba(0,0,0,0.6)}
+  /* project grid */
+  .controls{display:flex; gap:8px; align-items:center; margin-bottom:12px; flex-wrap:wrap}
+  .search{flex:1; min-width:160px}
+  .search input{width:100%; padding:10px; border-radius:10px; border:1px solid rgba(255,255,255,0.04); background:transparent; color:inherit}
+  .filters{display:flex; gap:8px; flex-wrap:wrap}
+  .chip{padding:8px 10px; border-radius:999px; background:rgba(255,255,255,0.02); color:var(--muted); cursor:pointer; font-weight:800}
+  .chip.active{background:linear-gradient(90deg,var(--accent2),var(--accent1)); color:#012}
+  .grid{display:grid; grid-template-columns:repeat(3,1fr); gap:16px}
+  @media(max-width:1100px){ .grid{grid-template-columns:repeat(2,1fr)} }
+  @media(max-width:720px){ .grid{grid-template-columns:1fr} .avatar{height:160px} }
+  .proj{border-radius:12px; overflow:hidden; position:relative; background:linear-gradient(180deg, rgba(255,255,255,0.015), transparent); border:1px solid rgba(255,255,255,0.03)}
+  .proj img{width:100%; height:180px; object-fit:cover; display:block}
+  .proj-body{padding:12px}
+  .proj-title{font-weight:900}
+  .proj-desc{color:var(--muted); margin-top:8px; font-size:14px}
+  .proj-tags{display:flex; gap:8px; margin-top:10px; flex-wrap:wrap}
+  .proj-actions{display:flex; gap:8px; margin-top:12px}
+  .tiny{font-size:13px; color:var(--muted)}
+  /* modal */
+  .modal-back{position:fixed; inset:0; background:rgba(2,6,12,0.6); display:grid; place-items:center; z-index:60; opacity:0; pointer-events:none; transition:all 180ms var(--ease)}
+  .modal-back.open{opacity:1; pointer-events:auto}
+  .modal{width:min(980px,96%); max-height:86vh; overflow:auto; background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent); border-radius:12px; padding:18px}
+  .modal .meta{color:var(--muted); font-size:13px}
+  .close{background:transparent; border:1px solid rgba(255,255,255,0.04); padding:8px 10px; border-radius:10px; cursor:pointer}
+  /* resume embed */
+  .resume-frame{width:100%; height:70vh; border-radius:10px; border:0; background:#02121a}
+  /* contact */
+  .contact-grid{display:grid; grid-template-columns:1fr 320px; gap:18px}
+  @media(max-width:880px){ .contact-grid{grid-template-columns:1fr} }
+  input,textarea,select{width:100%; padding:10px; border-radius:10px; border:1px solid rgba(255,255,255,0.05); background:transparent; color:inherit}
+  label{font-weight:800; font-size:13px; margin-bottom:6px}
+  .small{font-size:13px; color:var(--muted)}
+  footer{margin-top:36px; text-align:center; color:var(--muted); padding-bottom:40px}
+  /* animation util */
+  .reveal{opacity:0; transform:translateY(12px); transition:all 650ms var(--ease)}
+  .reveal.in{opacity:1; transform:none}
+  /* accessibility */
+  .sr-only{position:absolute; left:-9999px}
+</style>
+</head>
+<body>
+  <!-- ---------- Hero video (replace path with your uploaded video) ---------- -->
+  <div class="hero-wrap" role="banner" aria-label="Intro hero">
+    <!-- Replace this src with your uploaded video file name or hosted URL -->
+    <video id="heroVideo" autoplay muted loop playsinline>
+      <source src="assets/hero.mp4" type="video/mp4"> 
+      <!-- ***REPLACE***: if you uploaded VID_20251120_130555_095.mp4, change to assets/VID_20251120_130555_095.mp4 -->
+    </video>
+
+    <!-- subtle overlay glow/particles drawn by JS -->
+    <div class="hero-overlay" aria-hidden="true">
+      <canvas id="particleCanvas" style="width:100%; height:100%; display:block"></canvas>
+    </div>
+
+    <div class="wrap">
+      <header>
+        <div class="brand">
+          <div class="logo">RP</div>
+          <div>
+            <div style="font-weight:900">Ritesh Pagare</div>
+            <div class="tiny">AI Specialist • Automation & Robotics</div>
+          </div>
+        </div>
+
+        <nav aria-label="Primary">
+          <a href="#home">Home</a>
+          <a href="#projects">Projects</a>
+          <a href="#skills">Skills</a>
+          <a href="#contact">Contact</a>
+          <button class="theme-toggle" id="themeToggle" aria-pressed="false" title="Toggle theme">🌙</button>
+        </nav>
+      </header>
+
+      <main id="home" class="hero-content" style="display:flex; gap:18px; align-items:stretch; flex-wrap:wrap">
+        <div style="flex:1; max-width:780px">
+          <div class="eyebadge">AI Specialist • Tech Genius</div>
+          <h1>Hi, I'm <span class="accent">Ritesh Pagare</span></h1>
+          <div class="type" id="typeText">Converting ideas → working AI products</div>
+          <p class="intro">I design and ship AI products: mobile safety apps, OCR automation, robotics controls and startup sites. I focus on fast prototypes, reliable deployments and usable products.</p>
+
+          <div class="buttons">
+            <a class="btn" href="#projects">See Projects</a>
+            <button class="btn-ghost" id="openResumeBtn">View Resume</button>
+            <a class="btn-ghost" href="#contact">Contact</a>
+          </div>
+
+          <div style="margin-top:12px; display:flex; gap:8px; flex-wrap:wrap">
+            <div class="badge">Python</div>
+            <div class="badge">OpenCV</div>
+            <div class="badge">Kotlin</div>
+            <div class="badge">TensorFlow</div>
+          </div>
+        </div>
+
+        <aside class="profile" aria-label="Profile card">
+          <div class="avatar">Ritesh Pagare</div>
+          <div style="margin-top:12px">
+            <div style="font-weight:900">Open to internships & collaboration</div>
+            <div class="small muted" style="margin-top:6px">Nashik, India — riteshpagare03@gmail.com</div>
+          </div>
+
+          <div class="quick" style="margin-top:12px">
+            <a class="badge" href="#" title="GitHub">GitHub</a>
+            <a class="badge" href="#" title="LinkedIn">LinkedIn</a>
+            <a class="badge" href="#" title="Instagram">Instagram</a>
+          </div>
+        </aside>
+      </main>
+    </div>
+  </div>
+
+  <!-- ---------- Projects section (filterable + searchable) ---------- -->
+  <div class="wrap">
+    <section id="projects" class="reveal">
+      <h2>Projects</h2>
+      <p class="small muted">Filter, search and open project details. Replace project data below in the `projectsData` array.</p>
+
+      <div class="card" style="margin-top:12px">
+        <div class="controls">
+          <div class="search" aria-hidden="false">
+            <input id="searchInput" placeholder="Search projects (title, tech...)" />
+          </div>
+          <div class="filters" id="filterRow" role="toolbar" aria-label="Project filters">
+            <!-- dynamic filter chips -->
+          </div>
+        </div>
+
+        <div id="projectsGrid" class="grid" aria-live="polite">
+          <!-- JS will render project cards here -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------- Skills quick section ---------- -->
+    <section id="skills" class="reveal">
+      <h2>Skills</h2>
+      <div class="card" style="margin-top:12px; display:flex; gap:18px; flex-wrap:wrap; align-items:center">
+        <div style="flex:1; min-width:260px">
+          <div style="font-weight:900">AI & Computer Vision</div>
+          <div class="tiny muted" style="margin-top:6px">TensorFlow, PyTorch, OpenCV, Tesseract OCR</div>
+        </div>
+        <div style="flex:1; min-width:260px">
+          <div style="font-weight:900">Mobile & Embedded</div>
+          <div class="tiny muted" style="margin-top:6px">Kotlin, Jetpack Compose, ROS basics, microcontrollers</div>
+        </div>
+        <div style="flex:1; min-width:260px">
+          <div style="font-weight:900">Web & Product</div>
+          <div class="tiny muted" style="margin-top:6px">HTML, CSS, JS, React basics, GitHub Pages</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------- Contact ---------- -->
+    <section id="contact" class="reveal">
+      <h2>Contact</h2>
+      <p class="small muted">Open to internships, collaborations, and freelance projects.</p>
+
+      <div class="card contact-grid" style="margin-top:12px">
+        <form id="contactForm" onsubmit="handleContact(event)" novalidate>
+          <label for="name">Name</label>
+          <input id="name" required placeholder="Your name" />
+
+          <label for="email" style="margin-top:8px">Email</label>
+          <input id="email" type="email" required placeholder="you@company.com" />
+
+          <label for="message" style="margin-top:8px">Message</label>
+          <textarea id="message" rows="5" required placeholder="Project details"></textarea>
+
+          <div style="display:flex; gap:8px; margin-top:10px">
+            <button class="btn" type="submit">Send</button>
+            <a class="btn-ghost" href="mailto:riteshpagare03@gmail.com?subject=Portfolio%20Contact">Email Me</a>
+          </div>
+
+          <div id="contactNote" class="small muted" style="margin-top:8px"></div>
+        </form>
+
+        <aside style="padding:12px">
+          <div style="font-weight:900">Get in touch</div>
+          <div class="small muted" style="margin-top:8px"><strong>Email:</strong> riteshpagare03@gmail.com</div>
+          <div class="small muted"><strong>Phone:</strong> +91 (add number)</div>
+          <div class="small muted" style="margin-top:12px">Replace social links with your real GitHub / LinkedIn / Instagram URLs.</div>
+        </aside>
+      </div>
+    </section>
+
+    <footer>
+      <div class="small muted">Made with ❤️ by Ritesh Pagare • AI Specialist</div>
+      <div class="small muted">© <span id="year"></span></div>
+    </footer>
+  </div>
+
+  <!-- ---------- Project modal (reused) ---------- -->
+  <div id="modalBack" class="modal-back" aria-hidden="true" role="dialog" aria-modal="true" style="display:none">
+    <div class="modal" aria-labelledby="modalTitle">
+      <div style="display:flex; justify-content:space-between; gap:12px; align-items:start">
+        <div>
+          <h3 id="modalTitle">Project</h3>
+          <div id="modalMeta" class="meta">subtitle</div>
+        </div>
+        <div style="display:flex; gap:8px">
+          <button class="close" id="closeModal">Close</button>
+        </div>
+      </div>
+
+      <div id="modalBody" style="margin-top:12px; color:var(--muted)"></div>
+
+      <div id="modalCarousel" style="margin-top:12px; display:flex; gap:8px; overflow:auto"></div>
+
+      <div style="margin-top:12px; display:flex; gap:8px">
+        <a id="modalDemo" class="btn" href="#" target="_blank" rel="noopener">Open Demo</a>
+        <a id="modalCode" class="btn-ghost" href="#" target="_blank" rel="noopener">View Code</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ---------- Resume modal ---------- -->
+  <div id="resumeBack" class="modal-back" aria-hidden="true" role="dialog" style="display:none">
+    <div class="modal" style="width:min(980px,96%);">
+      <div style="display:flex; justify-content:space-between; gap:12px; align-items:center">
+        <h3>Resume — Ritesh Pagare</h3>
+        <div style="display:flex; gap:8px">
+          <a class="btn-ghost" id="downloadResume" href="assets/resume.pdf" download>Download</a>
+          <button class="close" id="closeResume">Close</button>
+        </div>
+      </div>
+      <iframe id="resumeFrame" class="resume-frame" src="assets/resume.pdf" title="Resume PDF">
+        <!-- ***REPLACE***: place resume at assets/resume.pdf or change href/src to your resume path -->
+      </iframe>
+    </div>
+  </div>
+
+<script>
+/* ---------- small helpers ---------- */
+document.getElementById('year').textContent = new Date().getFullYear();
+
+/* ---------- Theme toggle (persisted) ---------- */
+const themeToggle = document.getElementById('themeToggle');
+const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme:dark)').matches;
+let dark = localStorage.getItem('rp-dark');
+if(dark===null) dark = prefersDark ? '1' : '1';
+if(dark==='1') document.documentElement.style.setProperty('--bg','#031021');
+themeToggle.addEventListener('click', ()=>{
+  const isDark = localStorage.getItem('rp-dark')==='1';
+  if(isDark){ localStorage.setItem('rp-dark','0'); document.documentElement.style.setProperty('--bg','#f6f6f6'); themeToggle.textContent='🌙'; }
+  else { localStorage.setItem('rp-dark','1'); document.documentElement.style.setProperty('--bg','#031021'); themeToggle.textContent='☀️'; }
+});
+
+/* ---------- Simple typewriter ---------- */
+const typeEl = document.getElementById('typeText');
+const phrases = ["Converting ideas → working AI products.", "Computer Vision • Android • Robotics.", "Fast prototyping • Production-ready demos."];
+let pi=0, ti=0;
+function tickType(){
+  const p = phrases[pi];
+  typeEl.textContent = p.slice(0, ti);
+  ti++;
+  if(ti>p.length){ setTimeout(()=>{ ti=0; pi=(pi+1)%phrases.length; tickType(); }, 1100); }
+  else setTimeout(tickType, 42);
+}
+tickType();
+
+/* ---------- Particle background (simple, lightweight) ---------- */
+(function(){
+  const canvas = document.getElementById('particleCanvas');
+  const ctx = canvas.getContext('2d');
+  let w=canvas.width=window.innerWidth, h=canvas.height=420;
+  window.addEventListener('resize', ()=>{ w=canvas.width=window.innerWidth; h=canvas.height=420; });
+  const parts = [];
+  for(let i=0;i<50;i++) parts.push({x:Math.random()*w, y:Math.random()*h, r:Math.random()*2+0.6, vx:(Math.random()-0.5)*0.3, vy:(Math.random()-0.5)*0.3});
+  function draw(){
+    ctx.clearRect(0,0,w,h);
+    for(const p of parts){
+      p.x+=p.vx; p.y+=p.vy;
+      if(p.x<-10) p.x=w+10; if(p.x>w+10) p.x=-10;
+      if(p.y<-10) p.y=h+10; if(p.y>h+10) p.y=-10;
+      const g = ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r*10);
+      g.addColorStop(0,'rgba(110,231,255,0.08)');
+      g.addColorStop(1,'rgba(110,231,199,0)');
+      ctx.fillStyle=g; ctx.beginPath(); ctx.arc(p.x,p.y,p.r*10,0,Math.PI*2); ctx.fill();
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* ---------- Projects data (edit this array to add / update projects) ---------- */
+const projectsData = [
+  {
+    id: 'raksha',
+    title: 'RakshaAI — Women Safety App',
+    subtitle: 'Kotlin • Android • Live location • SOS',
+    description: 'Voice-activated SOS, stealth mode, fake-call, live tracking, hidden recording. Built with Jetpack Compose. Fast emergency workflows and low-power location sharing.',
+    tags: ['Android','Kotlin','Location'],
+    image: 'assets/raksha.png',
+    demo: '#', code:'#'
+  },
+  {
+    id: 'machinescan',
+    title: 'MachineScanApp — OCR Automation',
+    subtitle: 'Python • OpenCV • Tesseract',
+    description: 'Auto image capture, local Tesseract OCR, folderization by Machine ID and automated uploads for inspection flows.',
+    tags: ['Python','OpenCV','Tesseract'],
+    image: 'assets/machinescan.png',
+    demo:'#', code:'#'
+  },
+  {
+    id: 'novatech',
+    title: 'NovaTech.AI — Startup Site',
+    subtitle: 'Web • React • GH Pages',
+    description: 'Startup website & product showcase, responsive design and GitHub Pages deployment.',
+    tags: ['Web','React','GH Pages'],
+    image: 'assets/novatech.png',
+    demo:'#', code:'#'
+  },
+  {
+    id: 'jcb',
+    title: 'JCB Quality Inspection App',
+    subtitle: 'Python • CV • Inspection',
+    description: 'Invoice capture, data-plate OCR, PIN matching and retake/delete features for efficient quality inspection workflows.',
+    tags: ['Python','OCR','Inspection'],
+    image: 'assets/jcb.png',
+    demo:'#', code:'#'
+  }
+];
+
+/* ---------- Render filters & grid ---------- */
+const filterRow = document.getElementById('filterRow');
+const projectsGrid = document.getElementById('projectsGrid');
+let activeTag = 'All';
+
+function getAllTags(){
+  const s = new Set();
+  projectsData.forEach(p => p.tags.forEach(t=> s.add(t)));
+  return ['All', ...Array.from(s)];
+}
+
+function renderFilters(){
+  filterRow.innerHTML = '';
+  getAllTags().forEach(tag=>{
+    const btn = document.createElement('button');
+    btn.className = 'chip' + (tag===activeTag ? ' active' : '');
+    btn.textContent = tag;
+    btn.addEventListener('click', ()=>{ activeTag = tag; document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active')); btn.classList.add('active'); renderGrid(); });
+    filterRow.appendChild(btn);
+  });
+}
+function matchesSearch(p, q){
+  q=q.trim().toLowerCase();
+  if(!q) return true;
+  return (p.title + ' ' + p.subtitle + ' ' + p.description + ' ' + p.tags.join(' ')).toLowerCase().includes(q);
+}
+
+function renderGrid(){
+  const q = document.getElementById('searchInput').value || '';
+  projectsGrid.innerHTML = '';
+  const list = projectsData.filter(p => (activeTag==='All' || p.tags.includes(activeTag)) && matchesSearch(p,q));
+  if(list.length===0){ projectsGrid.innerHTML = '<div class="tiny muted">No projects found. Update the projectsData array to add more.</div>'; return }
+  for(const p of list){
+    const el = document.createElement('div'); el.className = 'proj reveal';
+    el.innerHTML = `
+      <img src="${p.image}" alt="${escapeHtml(p.title)}" loading="lazy" onerror="this.style.filter='grayscale(0.9)'; this.style.opacity=0.8" />
+      <div class="proj-body">
+        <div class="proj-title">${escapeHtml(p.title)}</div>
+        <div class="tiny muted">${escapeHtml(p.subtitle)}</div>
+        <div class="proj-desc">${escapeHtml(p.description)}</div>
+        <div class="proj-tags">${p.tags.map(t=>`<span class="chip">${escapeHtml(t)}</span>`).join('')}</div>
+        <div class="proj-actions">
+          <button class="btn-ghost" data-open="${p.id}">Details</button>
+          <a class="btn" href="${p.demo}" target="_blank" rel="noopener">Open</a>
+        </div>
+      </div>`;
+    projectsGrid.appendChild(el);
+  }
+  // attach open handlers & reveal animation
+  document.querySelectorAll('[data-open]').forEach(b => {
+    b.addEventListener('click', ()=> openProjectModal(b.getAttribute('data-open')));
+  });
+  revealAll();
+}
+
+/* ---------- Escape/HTML helper ---------- */
+function escapeHtml(s){ return (s||'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;'); }
+
+/* ---------- Search input ---------- */
+document.getElementById('searchInput').addEventListener('input', ()=> renderGrid());
+
+/* ---------- Modal (project) ---------- */
+const modalBack = document.getElementById('modalBack');
+const modalTitle = document.getElementById('modalTitle');
+const modalMeta = document.getElementById('modalMeta');
+const modalBody = document.getElementById('modalBody');
+const modalCarousel = document.getElementById('modalCarousel');
+const modalDemo = document.getElementById('modalDemo');
+const modalCode = document.getElementById('modalCode');
+const closeModalBtn = document.getElementById('closeModal');
+
+function openProjectModal(id){
+  const p = projectsData.find(x=>x.id===id);
+  if(!p) return;
+  modalTitle.textContent = p.title;
+  modalMeta.textContent = p.subtitle;
+  modalBody.textContent = p.description;
+  modalDemo.href = p.demo || '#';
+  modalCode.href = p.code || '#';
+  modalCarousel.innerHTML = '';
+  // if p.images array exists, show; else show image
+  const imgs = p.images || [p.image];
+  imgs.forEach(src=>{
+    const img = document.createElement('img'); img.src = src; img.alt = p.title; img.style.height='160px'; img.style.objectFit='cover'; img.style.borderRadius='8px';
+    img.loading = 'lazy';
+    modalCarousel.appendChild(img);
+  });
+  modalBack.style.display='grid';
+  setTimeout(()=> modalBack.classList.add('open'), 10);
+  modalBack.setAttribute('aria-hidden','false');
+  // focus management
+  closeModalBtn.focus();
+}
+closeModalBtn.addEventListener('click', closeProjectModal);
+modalBack.addEventListener('click', (e)=> { if(e.target === modalBack) closeProjectModal(); });
+document.addEventListener('keydown', (e)=> { if(e.key==='Escape') { closeProjectModal(); closeResume(); } });
+
+function closeProjectModal(){ modalBack.classList.remove('open'); setTimeout(()=> modalBack.style.display='none',200); modalBack.setAttribute('aria-hidden','true'); }
+
+/* ---------- Resume modal ---------- */
+const resumeBack = document.getElementById('resumeBack');
+const openResumeBtn = document.getElementById('openResumeBtn');
+const closeResumeBtn = document.getElementById('closeResume');
+openResumeBtn.addEventListener('click', ()=> { resumeBack.style.display='grid'; setTimeout(()=> resumeBack.classList.add('open'),10); resumeBack.setAttribute('aria-hidden','false'); document.getElementById('downloadResume').focus(); });
+closeResumeBtn.addEventListener('click', closeResume);
+resumeBack.addEventListener('click', (e)=> { if(e.target===resumeBack) closeResume(); });
+function closeResume(){ resumeBack.classList.remove('open'); setTimeout(()=> resumeBack.style.display='none',200); resumeBack.setAttribute('aria-hidden','true'); }
+
+/* ---------- Contact handling (Formspree option) ---------- */
+async function handleContact(e){
+  e.preventDefault();
+  const name = document.getElementById('name').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const message = document.getElementById('message').value.trim();
+  if(!name||!email||!message){ document.getElementById('contactNote').textContent='Please fill all fields'; return; }
+  // ***REPLACE***: set formspreeEndpoint to your Formspree URL if you want server-side email (optional)
+  const formspreeEndpoint = '***REPLACE_FORM_ENDPOINT***';
+  if(formspreeEndpoint && !formspreeEndpoint.includes('REPLACE')) {
+    try{
+      const res = await fetch(formspreeEndpoint, { method:'POST', headers:{ 'Content-Type':'application/json' }, body: JSON.stringify({ name, email, message }) });
+      if(res.ok){ document.getElementById('contactNote').textContent='Message sent. Thank you!'; document.getElementById('contactForm').reset(); }
+      else { document.getElementById('contactNote').textContent='Failed to send — try mailto link.'; }
+    }catch(err){ document.getElementById('contactNote').textContent='Error sending message — use email fallback.'; }
+  } else {
+    // fallback to mailto
+    const subject = encodeURIComponent('Portfolio contact from ' + name);
+    const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`);
+    window.location.href = `mailto:riteshpagare03@gmail.com?subject=${subject}&body=${body}`;
+  }
+}
+
+/* ---------- Reveal animation helper ---------- */
+function revealAll(){
+  document.querySelectorAll('.reveal').forEach((el, i)=>{
+    setTimeout(()=> el.classList.add('in'), 80*i);
+  });
+}
+renderFilters();
+renderGrid();
+
+/* ---------- small util: escape console errors for older browsers ---------- */
+function noop(){}
+
+/* ---------- initial reveal ---------- */
+setTimeout(revealAll, 200);
+
+/* ---------- Accessibility: focus trap could be added for modals in future ---------- */
+</script>
+</body>
+</html>

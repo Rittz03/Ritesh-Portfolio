@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Ritesh Pagare — AI Specialist</title>
+  <meta name="description" content="Ritesh Pagare — AI Specialist. Automation & Robotics student building AI apps, computer vision and embedded systems." />
+  <style>
+    /* ---- Simple, modern responsive CSS (single-file) ---- */
+    :root{
+      --bg:#0f1724; --card:#0b1220; --muted:#9aa7bd; --accent:#6ee7b7; --glass: rgba(255,255,255,0.03);
+      --radius:14px; --maxw:1100px;
+      --ff: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family:var(--ff); background:
+      radial-gradient(1000px 400px at 10% 10%, rgba(110,231,183,0.06), transparent 8%),
+      linear-gradient(180deg, #071226 0%, #041027 100%);
+      color:#e6eef8; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+      line-height:1.45;
+    }
+    .wrap{max-width:var(--maxw); margin:36px auto; padding:20px}
+    header{display:flex; gap:16px; align-items:center; justify-content:space-between; margin-bottom:22px}
+    .brand{display:flex; gap:12px; align-items:center}
+    .logo{
+      width:56px; height:56px; border-radius:12px; display:grid; place-items:center;
+      background:linear-gradient(135deg,#0ea5a4,#06b6d4); font-weight:700; color:#021019;
+      box-shadow: 0 6px 20px rgba(6,18,26,0.6);
+    }
+    nav{display:flex; gap:12px; align-items:center; flex-wrap:wrap}
+    nav a{color:var(--muted); text-decoration:none; font-weight:600; padding:8px 10px; border-radius:8px}
+    nav a:hover{color:var(--accent); background:var(--glass)}
+    .hero{
+      display:grid; grid-template-columns:1fr 360px; gap:24px; align-items:center;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+      padding:28px; border-radius:18px; box-shadow: 0 6px 30px rgba(0,0,0,0.6);
+    }
+    @media (max-width:880px){ .hero{grid-template-columns:1fr} nav{display:none} header{align-items:flex-start} .wrap{padding:14px} }
+    h1{margin:0; font-size:28px}
+    .title{color:var(--accent); font-weight:700}
+    .tag{color:var(--muted); margin-top:8px}
+    .ctas{margin-top:18px; display:flex; gap:12px; flex-wrap:wrap}
+    .btn{
+      padding:10px 14px; border-radius:12px; border:0; cursor:pointer; font-weight:700;
+      background:linear-gradient(90deg,#06b6d4,#0ea5a4); color:#012226; box-shadow: 0 8px 20px rgba(6,22,24,0.35);
+      text-decoration:none;
+    }
+    .ghost{background:transparent; border:1px solid rgba(255,255,255,0.06); color:var(--muted)}
+    .intro{color:var(--muted); margin-top:12px}
+    .skill-list{display:flex; gap:8px; flex-wrap:wrap; margin-top:12px}
+    .chip{background:rgba(255,255,255,0.03); padding:8px 10px; border-radius:10px; font-weight:600; color:var(--muted)}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent); border-radius:14px; padding:18px; box-shadow: 0 6px 18px rgba(2,6,12,0.6)}
+    .right-card{display:flex; flex-direction:column; gap:12px; align-items:stretch}
+    .avatar{
+      width:100%; height:240px; border-radius:12px; background:
+      linear-gradient(135deg,#064e5b,#083344); display:grid; place-items:center; font-size:18px; color:#bfffe9;
+    }
+    section{margin-top:28px}
+    .grid{display:grid; grid-template-columns:repeat(3,1fr); gap:16px}
+    @media (max-width:1000px){ .grid{grid-template-columns:repeat(2,1fr)} }
+    @media (max-width:640px){ .grid{grid-template-columns:1fr} .avatar{height:180px} }
+    .project-title{font-weight:800; margin:0 0 8px 0}
+    .muted{color:var(--muted)}
+    footer{margin-top:40px; color:var(--muted); text-align:center; padding:22px 0}
+    .socials{display:flex; gap:12px; justify-content:center; margin-top:12px}
+    .socials a{color:var(--muted); text-decoration:none; padding:8px; border-radius:8px}
+    .contact-grid{display:grid; grid-template-columns:1fr 320px; gap:18px}
+    @media (max-width:880px){ .contact-grid{grid-template-columns:1fr} }
+    input,textarea{
+      width:100%; padding:12px; border-radius:10px; background:transparent; border:1px solid rgba(255,255,255,0.06);
+      color:inherit; resize:vertical
+    }
+    label{font-weight:700; display:block; margin-bottom:8px}
+    .small{font-size:13px; color:var(--muted)}
+    .badge{display:inline-block; padding:6px 8px; border-radius:10px; background:rgba(255,255,255,0.02); color:var(--muted); font-weight:700}
+    .projects-grid{display:grid; gap:12px}
+    .proj-card{padding:14px; border-radius:12px; background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent)}
+    .proj-actions{margin-top:12px; display:flex; gap:8px}
+    .center{display:flex; align-items:center; justify-content:center}
+    .sr-only{position:absolute; left:-9999px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="logo" aria-hidden="true">RP</div>
+        <div>
+          <div style="font-weight:800">Ritesh Pagare</div>
+          <div class="small muted">AI Specialist • Automation & Robotics</div>
+        </div>
+      </div>
+
+      <nav>
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#skills">Skills</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- HERO -->
+    <main id="home" class="hero" role="main">
+      <div>
+        <div style="display:flex; gap:10px; align-items:center">
+          <div class="badge">AI Specialist</div>
+          <div class="small muted">Automation & Robotics • Student & Builder</div>
+        </div>
+
+        <h1 style="margin-top:12px">Hi — I’m <span class="title">Ritesh Pagare</span></h1>
+        <div class="intro muted">
+          I build AI-powered apps, computer-vision systems, and embedded automation solutions. I love turning models into real, working products — from OCR tools to mobile safety apps.
+        </div>
+
+        <div class="skill-list" aria-hidden="true" style="margin-top:14px">
+          <div class="chip">Python</div>
+          <div class="chip">OpenCV / Tesseract</div>
+          <div class="chip">TensorFlow / PyTorch</div>
+          <div class="chip">ROS</div>
+          <div class="chip">Kotlin • Android</div>
+          <div class="chip">React • Web</div>
+        </div>
+
+        <div class="ctas">
+          <a class="btn" href="#contact">Contact Me</a>
+          <a class="btn ghost" href="resume.pdf" download>Download Resume</a>
+        </div>
+      </div>
+
+      <aside class="right-card card">
+        <div class="avatar">
+          <div style="text-align:center">
+            <div style="font-size:20px; font-weight:800">Ritesh Pagare</div>
+            <div style="margin-top:6px" class="small muted">AI Specialist</div>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:10px; justify-content:space-between">
+          <div class="card" style="flex:1">
+            <div style="font-weight:800">Contact</div>
+            <div class="small muted" style="margin-top:6px">rites hpagare03@gmail.com</div>
+            <div class="small muted">+91 • (add number)</div>
+          </div>
+          <div class="card" style="width:120px; display:flex; flex-direction:column; gap:8px; align-items:center; justify-content:center">
+            <div style="font-weight:800">Location</div>
+            <div class="small muted">Nashik, India</div>
+          </div>
+        </div>
+      </aside>
+    </main>
+
+    <!-- ABOUT -->
+    <section id="about">
+      <div style="display:flex; gap:18px; align-items:flex-start; flex-wrap:wrap">
+        <div style="flex:1" class="card">
+          <h3 style="margin-top:0">About me</h3>
+          <p class="muted">
+            I’m an Automation & Robotics engineering student and AI Specialist focused on building practical AI solutions: computer vision pipelines, OCR automation, mobile apps, and embedded control systems. I enjoy rapid prototyping and shipping simple, reliable products that solve real problems.
+          </p>
+          <p class="small muted">Currently working on personal projects like safety apps, OCR-based machine scanners and web products for NovaTech.AI.</p>
+          <div style="margin-top:12px">
+            <strong>Looking for:</strong> internships, project collaborations, and freelance AI/robotics work.
+          </div>
+        </div>
+
+        <div style="width:300px" class="card">
+          <h4 style="margin:0 0 8px 0">Quick facts</h4>
+          <div class="small muted"><strong>Education:</strong> B.Tech — Automation & Robotics</div>
+          <div class="small muted"><strong>Languages:</strong> English, Hindi, Marathi</div>
+          <div class="small muted"><strong>Tools:</strong> VS Code, Git, Tesseract, Firebase</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects">
+      <div style="display:flex; justify-content:space-between; align-items:center">
+        <h3 style="margin:0">Projects</h3>
+        <div class="small muted">Selected work • real links below (update links)</div>
+      </div>
+
+      <div class="projects-grid" style="margin-top:12px">
+        <div class="proj-card card">
+          <div class="project-title">RakshaAI — Women Safety App</div>
+          <div class="small muted">Voice-activated SOS, live location sharing, stealth mode, and fake-call features. Built with Kotlin and Android Jetpack.</div>
+          <div class="proj-actions">
+            <a class="btn ghost" href="#" onclick="notifyEdit()">Details</a>
+            <a class="btn" href="#" onclick="notifyEdit()">Build</a>
+          </div>
+        </div>
+
+        <div class="proj-card card">
+          <div class="project-title">MachineScanApp — OCR Automation</div>
+          <div class="small muted">Image capture + offline OCR (Tesseract), folderization by machine ID and upload automation (prototype in Python).</div>
+          <div class="proj-actions">
+            <a class="btn ghost" href="#" onclick="notifyEdit()">Demo</a>
+            <a class="btn" href="#" onclick="notifyEdit()">Code</a>
+          </div>
+        </div>
+
+        <div class="proj-card card">
+          <div class="project-title">NovaTech.AI — Startup site</div>
+          <div class="small muted">Personal site & product showcase — static website, responsive design and deploy-ready to GitHub Pages.</div>
+          <div class="proj-actions">
+            <a class="btn ghost" href="#" onclick="notifyEdit()">Open</a>
+            <a class="btn" href="#" onclick="notifyEdit()">Edit</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills">
+      <h3 style="margin:0">Skills</h3>
+      <div class="grid" style="margin-top:12px">
+        <div class="card">
+          <strong>AI & ML</strong>
+          <div class="muted" style="margin-top:8px">TensorFlow, PyTorch, scikit-learn, model deployment</div>
+        </div>
+        <div class="card">
+          <strong>Computer Vision</strong>
+          <div class="muted" style="margin-top:8px">OpenCV, Tesseract OCR, image preprocessing, tracking</div>
+        </div>
+        <div class="card">
+          <strong>Mobile & Embedded</strong>
+          <div class="muted" style="margin-top:8px">Kotlin (Android), Embedded C, microcontrollers, ROS basics</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CERTIFICATES / ACHIEVEMENTS -->
+    <section id="certificates">
+      <h3 style="margin:0">Certificates & Achievements</h3>
+      <div style="display:flex; gap:8px; margin-top:12px; flex-wrap:wrap">
+        <div class="chip">Top project — College Hackathon</div>
+        <div class="chip">Completed ML Course (add provider)</div>
+        <div class="chip">Tesseract OCR Integration (project)</div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <h3 style="margin:0">Contact</h3>
+      <div class="contact-grid" style="margin-top:12px">
+        <div class="card">
+          <form id="contactForm" onsubmit="submitForm(event)">
+            <label for="name">Your name</label>
+            <input id="name" required placeholder="e.g., Utkarsh" />
+
+            <label for="email">Email</label>
+            <input id="email" type="email" required placeholder="you@example.com" />
+
+            <label for="message">Message</label>
+            <textarea id="message" rows="5" required placeholder="Project idea, internship request, or quick hello"></textarea>
+
+            <div style="margin-top:10px; display:flex; gap:8px">
+              <button class="btn" type="submit">Send</button>
+              <a class="btn ghost" href="mailto:riteshpagare03@gmail.com?subject=Hello%20Ritesh">Email Me</a>
+            </div>
+            <div id="formNote" class="small muted" style="margin-top:8px">This form opens your email client if JS email sending isn't configured.</div>
+          </form>
+        </div>
+
+        <aside class="card">
+          <h4 style="margin-top:0">Get in touch</h4>
+          <div class="small muted" style="margin-top:8px"><strong>Email:</strong> riteshpagare03@gmail.com</div>
+          <div class="small muted"><strong>Location:</strong> Nashik, India</div>
+          <div style="margin-top:12px" class="socials">
+            <a href="#" title="GitHub">GitHub</a>
+            <a href="#" title="LinkedIn">LinkedIn</a>
+            <a href="#" title="Instagram">Instagram</a>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <footer>
+      <div>Made with ❤️ by Ritesh Pagare — AI Specialist</div>
+      <div class="small muted">© <span id="year"></span> • Available for internships & projects</div>
+    </footer>
+  </div>
+
+  <script>
+    // small helpers
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    function notifyEdit(){
+      alert('Hey Bunty — replace these placeholder links with your real project URLs or GitHub repos.');
+    }
+
+    function submitForm(e){
+      e.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const message = document.getElementById('message').value.trim();
+
+      // fallback: open mailto with prefilled content
+      const subject = encodeURIComponent('Portfolio contact from ' + name);
+      const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`);
+      window.location.href = `mailto:riteshpagare03@gmail.com?subject=${subject}&body=${body}`;
+    }
+
+    // smooth scroll for links
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', e=>{
+        const href = a.getAttribute('href');
+        if(href.length>1){
+          e.preventDefault();
+          const el = document.querySelector(href);
+          if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+        }
+      });
+    });
+  </script>
+</body>
+</html>

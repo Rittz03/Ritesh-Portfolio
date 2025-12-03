@@ -1,0 +1,596 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Ritesh Pagare — AI Specialist</title>
+<meta name="description" content="Portfolio — Ritesh Pagare, AI Specialist. AI apps, Computer Vision, Android, OCR, Robotics." />
+<style>
+/* ==================== ROOT & RESET ==================== */
+:root{
+  --bg-900:#040712; --bg-800:#071427; --glass: rgba(255,255,255,0.03);
+  --muted:#9fb4c8; --accent1:#6ee7ff; --accent2:#7ef0c7;
+  --card: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  --radius:14px; --maxw:1200px; --ease:cubic-bezier(.2,.9,.25,1);
+  --mono: ui-monospace, SFMono-Regular, "SF Mono", "Segoe UI Mono", "Roboto Mono", monospace;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0; font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
+  background:linear-gradient(180deg,var(--bg-900),var(--bg-800));
+  color:#e7f1fb; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+  line-height:1.45; -webkit-font-feature-settings:"liga" on;
+}
+/* layout */
+.container{max-width:var(--maxw); margin:28px auto; padding:18px}
+header{display:flex; align-items:center; justify-content:space-between; gap:12px; position:sticky; top:14px; z-index:40}
+.brand{display:flex; gap:12px; align-items:center}
+.logo{width:56px;height:56px;border-radius:12px;display:grid;place-items:center;
+  background:linear-gradient(135deg,var(--accent2),var(--accent1)); color:#021; font-weight:900}
+nav{display:flex; gap:10px; align-items:center}
+nav a{color:var(--muted); text-decoration:none; padding:8px 10px; border-radius:10px; font-weight:700}
+nav a:hover{color:#fff; background:var(--glass)}
+.theme-btn{background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--muted);padding:8px;border-radius:8px;cursor:pointer}
+
+/* ==================== HERO (video + particles) ==================== */
+.hero-frame{position:relative; border-radius:18px; overflow:hidden; min-height:520px; display:grid; grid-template-columns:1fr 380px; gap:18px; box-shadow:0 18px 40px rgba(0,0,0,0.6)}
+@media (max-width:980px){ .hero-frame{grid-template-columns:1fr; min-height:420px} nav{display:none} header{align-items:flex-start} }
+#heroVideo{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:0; filter:brightness(0.45) saturate(1.05)}
+#particleCanvas{position:absolute; inset:0; z-index:1; pointer-events:none; mix-blend-mode:screen; opacity:0.85}
+.hero-overlay{position:absolute; inset:0; z-index:2; pointer-events:none}
+.hero{position:relative; z-index:3; padding:32px; display:flex; flex-direction:column; justify-content:center}
+.eyebadge{display:inline-flex; gap:8px; align-items:center; background:rgba(255,255,255,0.03); padding:8px 12px; border-radius:999px; color:var(--muted); font-weight:800}
+.h1{font-size:32px; margin:12px 0 6px 0; line-height:1.02}
+.accent-gradient{background:linear-gradient(90deg,var(--accent2),var(--accent1)); -webkit-background-clip:text; background-clip:text; color:transparent; font-weight:900}
+.typewriter{font-family:var(--mono); font-weight:800; color:var(--accent1); margin-top:8px}
+.intro{color:var(--muted); margin-top:12px; max-width:64ch}
+
+/* CTA */
+.cta-row{margin-top:18px; display:flex; gap:12px; flex-wrap:wrap}
+.btn{padding:10px 14px; border-radius:12px; border:0; cursor:pointer; font-weight:800; color:#022; background:linear-gradient(90deg,var(--accent1),var(--accent2)); text-decoration:none}
+.btn-ghost{padding:10px 14px; border-radius:12px; border:1px solid rgba(255,255,255,0.06); background:transparent; color:var(--muted)}
+
+/* profile card */
+.profile-card{padding:18px; margin:18px; margin-right:28px; align-self:start; border-radius:12px; background:var(--card); z-index:4}
+.avatar{height:220px;border-radius:10px;display:grid;place-items:center;background:linear-gradient(135deg,#063642,#072a3a); font-weight:900}
+
+/* ==================== SECTIONS ==================== */
+section{margin-top:28px}
+h2{margin:0 0 8px 0; font-size:20px}
+.card{border-radius:12px; padding:16px; background:var(--card); box-shadow:0 10px 30px rgba(0,0,0,0.6)}
+
+/* Projects grid */
+.controls{display:flex; gap:8px; align-items:center; margin-bottom:12px; flex-wrap:wrap}
+.search input{width:100%; padding:10px; border-radius:10px; border:1px solid rgba(255,255,255,0.04); background:transparent; color:inherit}
+.filter-row{display:flex; gap:8px; flex-wrap:wrap}
+.chip{padding:8px 10px; border-radius:999px; background:rgba(255,255,255,0.02); color:var(--muted); cursor:pointer; font-weight:800}
+.chip.active{background:linear-gradient(90deg,var(--accent2),var(--accent1)); color:#012}
+.grid{display:grid; grid-template-columns:repeat(3,1fr); gap:16px}
+@media (max-width:1100px){ .grid{grid-template-columns:repeat(2,1fr)} }
+@media (max-width:720px){ .grid{grid-template-columns:1fr} }
+
+/* Project card - tilt + glow */
+.proj{border-radius:12px; overflow:hidden; position:relative; background:linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01)); border:1px solid rgba(255,255,255,0.03); transition:transform 220ms var(--ease), box-shadow 220ms var(--ease)}
+.proj:hover{transform:translateY(-6px) scale(1.01); box-shadow:0 28px 80px rgba(3,12,30,0.6)}
+.proj img{width:100%; height:190px; object-fit:cover; display:block}
+.proj-body{padding:12px}
+.proj-title{font-weight:900}
+.proj-desc{color:var(--muted); margin-top:8px; font-size:14px}
+.proj-tags{display:flex; gap:8px; margin-top:10px; flex-wrap:wrap}
+
+/* modal */
+.modal-back{position:fixed; inset:0; background:rgba(2,6,12,0.6); display:grid; place-items:center; z-index:80; opacity:0; pointer-events:none; transition:all 180ms var(--ease)}
+.modal-back.open{opacity:1; pointer-events:auto}
+.modal{width:min(980px,96%); max-height:86vh; overflow:auto; background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent); border-radius:12px; padding:18px}
+.modal .meta{color:var(--muted); font-size:13px}
+.close{background:transparent;border:1px solid rgba(255,255,255,0.04);padding:8px 10px;border-radius:10px;cursor:pointer}
+
+/* skills */
+.skills-grid{display:grid; grid-template-columns:1fr 320px; gap:18px}
+@media (max-width:880px){ .skills-grid{grid-template-columns:1fr} }
+.skill{display:flex; align-items:center; gap:12px}
+.bar{flex:1; height:10px; background:rgba(255,255,255,0.04); border-radius:999px; overflow:hidden}
+.bar > i{display:block; height:100%; width:0%; background:linear-gradient(90deg,var(--accent1),var(--accent2)); border-radius:999px; transition:width 900ms var(--ease)}
+.circle{width:120px; height:120px; border-radius:999px; display:grid; place-items:center; background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent); border:1px solid rgba(255,255,255,0.03)}
+
+/* timeline */
+.timeline{position:relative; padding-left:14px}
+.timeline::before{content:""; position:absolute; left:10px; top:8px; bottom:12px; width:2px; background:linear-gradient(180deg,var(--accent1),var(--accent2)); opacity:0.12}
+.event{position:relative; margin-bottom:18px; padding-left:28px}
+.event .dot{position:absolute; left:0; top:6px; width:16px; height:16px; border-radius:999px; background:linear-gradient(90deg,var(--accent1),var(--accent2)); box-shadow:0 6px 14px rgba(14,120,130,0.12)}
+
+/* counters */
+.counters{display:flex; gap:18px; flex-wrap:wrap}
+.counter{background:rgba(255,255,255,0.02); padding:12px 16px; border-radius:12px; text-align:center}
+.counter .num{font-weight:900; font-size:20px}
+
+/* contact */
+.contact-grid{display:grid; grid-template-columns:1fr 320px; gap:18px}
+@media (max-width:880px){ .contact-grid{grid-template-columns:1fr} }
+input,textarea{width:100%; padding:10px; border-radius:10px; border:1px solid rgba(255,255,255,0.05); background:transparent; color:inherit}
+label{font-weight:800; font-size:13px; margin-bottom:6px}
+.small{font-size:13px; color:var(--muted)}
+
+/* resume iframe */
+.resume-frame{width:100%; height:70vh; border-radius:10px; border:0; background:#02121a}
+
+/* reveal utility */
+.reveal{opacity:0; transform:translateY(12px); transition:all 650ms var(--ease)}
+.reveal.in{opacity:1; transform:none}
+
+/* small */
+.sr-only{position:absolute; left:-9999px}
+</style>
+</head>
+<body>
+  <!-- ==================== HERO (VIDEO + PARTICLES) ==================== -->
+  <div class="hero-frame" role="banner" aria-label="Intro hero">
+    <!-- IMPORTANT: using uploaded local file path as hero video source -->
+    <video id="heroVideo" autoplay muted loop playsinline>
+      <source src="/mnt/data/VID_20251120_130555_095.mp4" type="video/mp4">
+      <!-- If this local path isn't available on your host, replace with assets/hero.mp4 or an external URL -->
+    </video>
+
+    <canvas id="particleCanvas" aria-hidden="true"></canvas>
+    <div class="hero-overlay" aria-hidden="true"></div>
+
+    <div class="container" style="position:relative; z-index:4">
+      <header>
+        <div class="brand">
+          <div class="logo">RP</div>
+          <div>
+            <div style="font-weight:900">Ritesh Pagare</div>
+            <div class="small" style="color:var(--muted)">AI Specialist • Automation & Robotics</div>
+          </div>
+        </div>
+
+        <nav aria-label="Primary navigation">
+          <a href="#home">Home</a>
+          <a href="#projects">Projects</a>
+          <a href="#skills">Skills</a>
+          <a href="#timeline">Timeline</a>
+          <a href="#contact">Contact</a>
+          <button id="themeToggle" class="theme-btn" aria-pressed="false" title="Toggle theme">🌙</button>
+        </nav>
+      </header>
+
+      <main id="home" class="hero" role="main">
+        <div>
+          <div class="eyebadge">AI Specialist • Tech Genius</div>
+          <div class="h1">Hi — I’m <span class="accent-gradient">Ritesh Pagare</span></div>
+          <div class="typewriter" id="typewriter" aria-hidden="true">Building intelligent, deployable AI products.</div>
+          <p class="intro">A tech innovator building AI apps, computer vision systems, Android apps, OCR automation tools, and robotics workflows. I focus on fast prototyping, robust engineering, and shipping usable products.</p>
+
+          <div class="cta-row">
+            <a class="btn" href="#projects">See Projects</a>
+            <button id="openResume" class="btn-ghost">View Resume</button>
+            <a class="btn-ghost" href="#contact">Contact</a>
+          </div>
+
+          <div style="margin-top:14px; display:flex; gap:8px; flex-wrap:wrap">
+            <div class="chip">Python</div>
+            <div class="chip">OpenCV</div>
+            <div class="chip">Kotlin</div>
+            <div class="chip">TensorFlow</div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <aside class="profile-card" aria-label="Profile card" style="position:relative; z-index:4">
+      <div class="avatar">Ritesh Pagare</div>
+      <div style="margin-top:12px; font-weight:900">Open to internships & collaboration</div>
+      <div class="small" style="margin-top:6px">Nashik, India • riteshpagare03@gmail.com</div>
+      <div style="margin-top:12px; display:flex; gap:8px">
+        <a class="chip" href="#" title="GitHub">GitHub</a>
+        <a class="chip" href="#" title="LinkedIn">LinkedIn</a>
+        <a class="chip" href="#" title="Instagram">Instagram</a>
+      </div>
+    </aside>
+  </div>
+
+  <!-- ==================== PROJECTS ==================== -->
+  <div class="container">
+    <section id="projects" class="reveal">
+      <h2>Projects</h2>
+      <p class="small" style="color:var(--muted)">Filterable gallery — click Details for modal & links.</p>
+
+      <div class="card" style="margin-top:12px">
+        <div class="controls">
+          <div class="search" style="flex:1; min-width:180px">
+            <input id="searchInput" placeholder="Search projects (title, tech...)" />
+          </div>
+          <div class="filter-row" id="filterRow" role="toolbar" aria-label="Filters"></div>
+        </div>
+
+        <div id="projectsGrid" class="grid" aria-live="polite">
+          <!-- populated by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SKILLS ==================== -->
+    <section id="skills" class="reveal">
+      <h2>Skills</h2>
+      <div class="card" style="margin-top:12px">
+        <div class="skills-grid">
+          <div>
+            <div class="skill"><div style="width:120px;font-weight:900">Machine Learning</div><div class="bar"><i data-width="90%"></i></div><div class="small" style="min-width:48px;text-align:right">90%</div></div>
+            <div class="skill" style="margin-top:10px"><div style="width:120px;font-weight:900">Computer Vision</div><div class="bar"><i data-width="92%"></i></div><div class="small" style="min-width:48px;text-align:right">92%</div></div>
+            <div class="skill" style="margin-top:10px"><div style="width:120px;font-weight:900">Android</div><div class="bar"><i data-width="86%"></i></div><div class="small" style="min-width:48px;text-align:right">86%</div></div>
+            <div class="skill" style="margin-top:10px"><div style="width:120px;font-weight:900">Embedded / ROS</div><div class="bar"><i data-width="70%"></i></div><div class="small" style="min-width:48px;text-align:right">70%</div></div>
+          </div>
+
+          <div style="display:flex; flex-direction:column; align-items:center; gap:12px; justify-content:center">
+            <div class="circle" aria-hidden="true">
+              <svg width="110" height="110" viewBox="0 0 36 36">
+                <path d="M18 2.0845a15.9155 15.9155 0 1 0 0 31.831" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="3"/>
+                <path id="circleStroke" d="M18 2.0845a15.9155 15.9155 0 1 0 0 31.831" fill="none" stroke-width="3" stroke-linecap="round" stroke="url(#g)"/>
+                <defs><linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="#6ee7ff"/><stop offset="1" stop-color="#7ef0c7"/></linearGradient></defs>
+              </svg>
+              <div style="position:absolute; text-align:center; font-weight:900">RP<br><span style="font-weight:800;color:var(--muted);font-size:12px">Tech Genius</span></div>
+            </div>
+            <div class="small" style="color:var(--muted)">Top strength: Computer Vision & Deployments</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TIMELINE & STATS ==================== -->
+    <section id="timeline" class="reveal">
+      <h2>Timeline & Achievements</h2>
+      <div class="card" style="margin-top:12px; display:flex; gap:18px; flex-wrap:wrap">
+        <div style="flex:1; min-width:260px">
+          <div class="timeline">
+            <div class="event">
+              <div class="dot"></div>
+              <h4>RakshaAI — Aug 2025</h4>
+              <div class="small" style="color:var(--muted)">Core SOS, voice trigger & live sharing.</div>
+            </div>
+            <div class="event">
+              <div class="dot"></div>
+              <h4>MachineScanApp — Jul 2025</h4>
+              <div class="small" style="color:var(--muted)">Offline OCR + folderization prototype.</div>
+            </div>
+            <div class="event">
+              <div class="dot"></div>
+              <h4>NovaTech.AI — 2025</h4>
+              <div class="small" style="color:var(--muted)">Startup site & deployments.</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="min-width:220px">
+          <div class="counters">
+            <div class="counter"><div class="num" data-target="12">0</div><div class="small">Projects</div></div>
+            <div class="counter"><div class="num" data-target="1800">0</div><div class="small">Hours Coding</div></div>
+            <div class="counter"><div class="num" data-target="3">0</div><div class="small">Products Shipped</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== CONTACT ==================== -->
+    <section id="contact" class="reveal">
+      <h2>Contact</h2>
+      <p class="small" style="color:var(--muted)">Open to internships, freelance & collaboration.</p>
+      <div class="card contact-grid" style="margin-top:12px">
+        <form id="contactForm" onsubmit="handleContact(event)" novalidate>
+          <label for="cname">Name</label>
+          <input id="cname" required placeholder="Your name" />
+          <label for="cemail" style="margin-top:8px">Email</label>
+          <input id="cemail" type="email" required placeholder="you@company.com" />
+          <label for="cmsg" style="margin-top:8px">Message</label>
+          <textarea id="cmsg" rows="5" required placeholder="Project details"></textarea>
+          <div style="display:flex; gap:8px; margin-top:10px">
+            <button class="btn" type="submit">Send</button>
+            <a class="btn-ghost" href="mailto:riteshpagare03@gmail.com?subject=Portfolio%20Contact">Email Me</a>
+          </div>
+          <div id="contactNote" class="small" style="margin-top:8px;color:var(--muted)"></div>
+        </form>
+
+        <aside style="padding:12px">
+          <div style="font-weight:900">Get in touch</div>
+          <div class="small" style="margin-top:8px"><strong>Email:</strong> riteshpagare03@gmail.com</div>
+          <div class="small"><strong>Phone:</strong> +91 (add number)</div>
+          <div class="small" style="margin-top:12px">Replace social links with your real GitHub / LinkedIn / Instagram URLs.</div>
+        </aside>
+      </div>
+    </section>
+
+    <footer style="margin-top:28px; text-align:center; color:var(--muted)">
+      Made with ❤️ by <strong>Ritesh Pagare</strong> — AI Specialist • © <span id="year"></span>
+    </footer>
+  </div>
+
+  <!-- ==================== MODALS ==================== -->
+  <div id="projectModal" class="modal-back" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div style="display:flex; justify-content:space-between; gap:12px; align-items:start">
+        <div>
+          <h3 id="modalTitle">Project</h3>
+          <div id="modalMeta" class="meta">subtitle</div>
+        </div>
+        <div style="display:flex; gap:8px">
+          <button class="close" id="closeProject">Close</button>
+        </div>
+      </div>
+      <div id="modalBody" style="margin-top:12px;color:var(--muted)"></div>
+      <div id="modalCarousel" style="margin-top:12px; display:flex; gap:8px; overflow:auto"></div>
+      <div style="margin-top:12px; display:flex; gap:8px">
+        <a id="modalDemo" class="btn" href="#" target="_blank" rel="noopener">Open Demo</a>
+        <a id="modalCode" class="btn-ghost" href="#" target="_blank" rel="noopener">View Code</a>
+      </div>
+    </div>
+  </div>
+
+  <div id="resumeModal" class="modal-back" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" style="width:min(980px,96%)">
+      <div style="display:flex; justify-content:space-between; gap:12px; align-items:center">
+        <h3>Resume — Ritesh Pagare</h3>
+        <div style="display:flex; gap:8px">
+          <a id="downloadResume" class="btn-ghost" href="assets/resume.pdf" download>Download</a>
+          <button class="close" id="closeResume">Close</button>
+        </div>
+      </div>
+      <iframe id="resumeFrame" class="resume-frame" src="assets/resume.pdf" title="Resume PDF"></iframe>
+    </div>
+  </div>
+
+<script>
+/* ==================== UTILS & INITIAL ==================== */
+document.getElementById('year').textContent = new Date().getFullYear();
+
+/* -------------------- Typewriter -------------------- */
+const twPhrases = ["Building intelligent, deployable AI products.","Computer Vision • Android • Robotics.","Fast prototyping • Production-ready demos."];
+let twI=0, twJ=0;
+const twEl = document.getElementById('typewriter');
+function typeTick(){
+  const p = twPhrases[twI];
+  twEl.textContent = p.slice(0, twJ);
+  twJ++;
+  if(twJ > p.length){ setTimeout(()=>{ twJ=0; twI=(twI+1)%twPhrases.length; typeTick(); }, 1000); }
+  else setTimeout(typeTick, 42);
+}
+typeTick();
+
+/* -------------------- Particles canvas (subtle) -------------------- */
+(function(){
+  const c = document.getElementById('particleCanvas');
+  const ctx = c.getContext('2d');
+  let W = c.width = innerWidth, H = c.height = innerHeight * 0.65;
+  window.addEventListener('resize', ()=>{ W = c.width = innerWidth; H = c.height = innerHeight * 0.65; });
+  const N = Math.round((W*H)/90000);
+  const parts = [];
+  for(let i=0;i<Math.max(40, N);i++){
+    parts.push({x:Math.random()*W, y:Math.random()*H, r:Math.random()*1.6+0.6, vx:(Math.random()-0.5)*0.4, vy:(Math.random()-0.5)*0.4, life:Math.random()*200+80});
+  }
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    for(const p of parts){
+      p.x+=p.vx; p.y+=p.vy; p.life-=0.2;
+      if(p.x < -20) p.x = W+20; if(p.x > W+20) p.x = -20;
+      if(p.y < -20) p.y = H+20; if(p.y > H+20) p.y = -20;
+      if(p.life < 0){ p.x=Math.random()*W; p.y=Math.random()*H; p.life=Math.random()*200+80; }
+      const g = ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r*14);
+      g.addColorStop(0, 'rgba(110,231,255,'+(0.12*p.r).toFixed(2)+')');
+      g.addColorStop(1, 'rgba(110,231,199,0)');
+      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(p.x,p.y,p.r*12,0,Math.PI*2); ctx.fill();
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* -------------------- Projects data -------------------- */
+const projectsData = [
+  { id:'raksha', title:'RakshaAI — Women Safety App', subtitle:'Kotlin • Android • Live location • SOS', description:'Voice-activated SOS, stealth mode, fake-call, live tracking and hidden recording. Built with Jetpack Compose. Fast emergency workflows and low-power location sharing.', tags:['Android','Kotlin','Location'], image:'assets/raksha.png', demo:'#', code:'#' },
+  { id:'machinescan', title:'MachineScanApp — OCR Automation', subtitle:'Python • OpenCV • Tesseract', description:'Automatic image capture + offline Tesseract OCR, folderization by Machine ID and upload automation for inspections.', tags:['Python','OpenCV','Tesseract'], image:'assets/machinescan.png', demo:'#', code:'#' },
+  { id:'novatech', title:'NovaTech.AI — Startup Website', subtitle:'Web • React • GH Pages', description:'Responsive product site & deployment to GitHub Pages, product showcase and CI instructions.', tags:['Web','React','GH Pages'], image:'assets/novatech.png', demo:'#', code:'#' },
+  { id:'jcb', title:'JCB Quality Inspection App', subtitle:'Python • CV • Inspection', description:'Invoice capture, data-plate OCR, PIN matching and retake/delete features for quality inspection workflows.', tags:['Python','OCR','Inspection'], image:'assets/jcb.png', demo:'#', code:'#' }
+];
+
+/* -------------------- Render filters & grid -------------------- */
+const filterRow = document.getElementById('filterRow');
+const projectsGrid = document.getElementById('projectsGrid');
+let activeTag = 'All';
+function getTags(){ const s = new Set(); projectsData.forEach(p=>p.tags.forEach(t=>s.add(t))); return ['All', ...Array.from(s)]; }
+function renderFilters(){
+  filterRow.innerHTML = '';
+  getTags().forEach(t=>{
+    const b = document.createElement('button'); b.className='chip'+(t===activeTag?' active':''); b.textContent=t;
+    b.addEventListener('click', ()=>{ activeTag=t; document.querySelectorAll('.chip').forEach(x=>x.classList.remove('active')); b.classList.add('active'); renderGrid(); });
+    filterRow.appendChild(b);
+  });
+}
+function matchesSearch(p, q){
+  q=q.trim().toLowerCase();
+  if(!q) return true;
+  return (p.title + ' ' + p.subtitle + ' ' + p.description + ' ' + p.tags.join(' ')).toLowerCase().includes(q);
+}
+function renderGrid(){
+  const q = document.getElementById('searchInput').value || '';
+  projectsGrid.innerHTML = '';
+  const list = projectsData.filter(p => (activeTag==='All' || p.tags.includes(activeTag)) && matchesSearch(p,q));
+  if(list.length===0){ projectsGrid.innerHTML = '<div class="small" style="color:var(--muted)">No projects found. Edit projectsData to update.</div>'; return; }
+  list.forEach(p=>{
+    const el = document.createElement('div'); el.className='proj reveal'; el.innerHTML = `
+      <img src="${p.image}" alt="${p.title}" loading="lazy" onerror="this.style.filter='grayscale(0.9)'; this.style.opacity=0.85" />
+      <div class="proj-body">
+        <div class="proj-title">${p.title}</div>
+        <div class="small" style="color:var(--muted)">${p.subtitle}</div>
+        <div class="proj-desc">${p.description}</div>
+        <div class="proj-tags">${p.tags.map(t=>`<span class="chip">${t}</span>`).join('')}</div>
+        <div style="margin-top:10px" class="proj-actions">
+          <button class="chip" data-open="${p.id}">Details</button>
+          <a class="btn" href="${p.demo}" target="_blank" rel="noopener">Open</a>
+        </div>
+      </div>`;
+    projectsGrid.appendChild(el);
+  });
+  attachOpenHandlers();
+  attachTilt();
+  revealAll();
+}
+
+/* -------------------- Attach open handlers (modal) -------------------- */
+const projectModal = document.getElementById('projectModal');
+const modalTitle = document.getElementById('modalTitle');
+const modalMeta = document.getElementById('modalMeta');
+const modalBody = document.getElementById('modalBody');
+const modalCarousel = document.getElementById('modalCarousel');
+const modalDemo = document.getElementById('modalDemo');
+const modalCode = document.getElementById('modalCode');
+const closeProject = document.getElementById('closeProject');
+
+function attachOpenHandlers(){
+  document.querySelectorAll('[data-open]').forEach(b=>{
+    b.addEventListener('click', ()=> openProjectModal(b.getAttribute('data-open')));
+  });
+}
+function openProjectModal(id){
+  const p = projectsData.find(x=>x.id===id); if(!p) return;
+  modalTitle.textContent = p.title; modalMeta.textContent = p.subtitle; modalBody.textContent = p.description;
+  modalCarousel.innerHTML = '';
+  const imgs = p.images || [p.image];
+  imgs.forEach(src=>{
+    const i = document.createElement('img'); i.src=src; i.alt=p.title; i.style.height='140px'; i.style.objectFit='cover'; i.style.borderRadius='8px'; i.loading='lazy';
+    modalCarousel.appendChild(i);
+  });
+  modalDemo.href = p.demo || '#'; modalCode.href = p.code || '#';
+  projectModal.style.display='grid'; setTimeout(()=> projectModal.classList.add('open'), 12); projectModal.setAttribute('aria-hidden','false');
+  closeProject.focus();
+}
+function closeProjectModal(){ projectModal.classList.remove('open'); setTimeout(()=> projectModal.style.display='none', 200); projectModal.setAttribute('aria-hidden','true'); }
+closeProject.addEventListener('click', closeProjectModal);
+projectModal.addEventListener('click', (e)=>{ if(e.target===projectModal) closeProjectModal(); });
+
+/* -------------------- Tilt effect (lightweight) -------------------- */
+function attachTilt(){
+  document.querySelectorAll('.proj').forEach(el=>{
+    const inner = el;
+    el.addEventListener('mousemove', (ev)=>{
+      const rect = el.getBoundingClientRect();
+      const x = (ev.clientX - rect.left) / rect.width - 0.5;
+      const y = (ev.clientY - rect.top) / rect.height - 0.5;
+      const rx = (-y * 8).toFixed(2), ry = (x * 8).toFixed(2);
+      inner.style.transform = `perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg) translateZ(6px)`;
+    });
+    el.addEventListener('mouseleave', ()=> inner.style.transform = 'none');
+  });
+}
+
+/* -------------------- Search input -------------------- */
+document.getElementById('searchInput').addEventListener('input', ()=> renderGrid());
+
+/* -------------------- Reveal (IntersectionObserver fallback) -------------------- */
+function revealAll(){
+  document.querySelectorAll('.reveal').forEach((el, i)=>{
+    setTimeout(()=> el.classList.add('in'), i*80);
+  });
+}
+
+/* -------------------- Skill bars & circle animation -------------------- */
+document.querySelectorAll('.bar i').forEach(el=>{ const w=el.getAttribute('data-width')||'70%'; setTimeout(()=> el.style.width = w, 600); });
+const circleStroke = document.getElementById('circleStroke');
+if(circleStroke){ circleStroke.style.strokeDasharray = '0 1000'; setTimeout(()=>{ const pct = 88; const dash = (pct/100)*1000; circleStroke.style.strokeDasharray = dash + ' 1000'; circleStroke.style.transition = 'stroke-dasharray 1100ms var(--ease)'; },700); }
+
+/* -------------------- Counters -------------------- */
+function animateCounters(){
+  document.querySelectorAll('.num').forEach(el=>{
+    const target = +el.getAttribute('data-target') || 0;
+    const dur = 1200; const start = 0; const step = Math.max(1, Math.floor(target / (dur/30)));
+    let cur = start;
+    const iv = setInterval(()=>{ cur += step; if(cur >= target){ el.textContent = target; clearInterval(iv); } else el.textContent = cur; }, 30);
+  });
+}
+setTimeout(animateCounters, 900);
+
+/* -------------------- Contact form (mailto fallback) -------------------- */
+async function handleContact(e){
+  e.preventDefault();
+  const name = document.getElementById('cname').value.trim();
+  const email = document.getElementById('cemail').value.trim();
+  const msg = document.getElementById('cmsg').value.trim();
+  const note = document.getElementById('contactNote');
+  if(!name||!email||!msg){ note.textContent = 'Please fill all fields'; return; }
+  // Optional: wire to Formspree or server here. Fallback to mailto:
+  const subject = encodeURIComponent('Portfolio contact from ' + name);
+  const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${msg}`);
+  window.location.href = `mailto:riteshpagare03@gmail.com?subject=${subject}&body=${body}`;
+}
+
+/* -------------------- Resume modal handlers -------------------- */
+const resumeModal = document.getElementById('resumeModal');
+const openResumeBtn = document.getElementById('openResume');
+const closeResume = document.getElementById('closeResume');
+openResumeBtn.addEventListener('click', ()=> { resumeModal.style.display='grid'; setTimeout(()=> resumeModal.classList.add('open'),12); resumeModal.setAttribute('aria-hidden','false'); document.getElementById('downloadResume').focus(); });
+closeResume.addEventListener('click', ()=> { resumeModal.classList.remove('open'); setTimeout(()=> resumeModal.style.display='none',200); resumeModal.setAttribute('aria-hidden','true'); });
+resumeModal.addEventListener('click', (e)=>{ if(e.target === resumeModal) { resumeModal.classList.remove('open'); setTimeout(()=> resumeModal.style.display='none',200); } });
+
+/* -------------------- Theme toggle (simple; persistent) -------------------- */
+const themeToggle = document.getElementById('themeToggle');
+let dark = localStorage.getItem('rp-dark'); if(dark===null) dark='1'; // default dark
+applyTheme();
+themeToggle.addEventListener('click', ()=>{
+  dark = (dark==='1'?'0':'1'); localStorage.setItem('rp-dark', dark); applyTheme();
+});
+function applyTheme(){
+  if(dark==='1'){ document.documentElement.style.setProperty('--bg-900','#040712'); themeToggle.textContent='🌙'; themeToggle.setAttribute('aria-pressed','true'); }
+  else { document.documentElement.style.setProperty('--bg-900','#f6f7fb'); themeToggle.textContent='☀️'; themeToggle.setAttribute('aria-pressed','false'); }
+}
+
+/* -------------------- Keyboard accessibility: Esc closes modals -------------------- */
+document.addEventListener('keydown', (e)=>{ if(e.key==='Escape'){ if(projectModal.classList.contains('open')) closeProjectModal(); if(resumeModal.classList.contains('open')) { resumeModal.classList.remove('open'); setTimeout(()=> resumeModal.style.display='none',200); } } });
+
+/* -------------------- Small progressive reveal on load -------------------- */
+renderFilters();
+renderGrid();
+
+/* -------------------- Safety: prevent missing-asset console panic (no-op) -------------------- */
+function noop(){}
+
+/* -------------------- End of main script -------------------- */
+</script>
+
+<!-- ==================== INSTRUCTIONS (Replace assets) ==================== -->
+<!--
+1) HERO VIDEO:
+   - This file currently uses the uploaded local video path:
+     /mnt/data/VID_20251120_130555_095.mp4
+   - When you deploy, either:
+     a) place that file at the same server path, or
+     b) replace the video <source> src with "assets/hero.mp4" (recommended), and upload the MP4 to assets/hero.mp4.
+
+2) PROJECT IMAGES:
+   - Update each project's `image` field in the JavaScript `projectsData` array.
+     Example: 'assets/raksha.png', 'assets/machinescan.png', 'assets/novatech.png', 'assets/jcb.png'.
+   - If an image is missing, it falls back visually (grayscale + opacity).
+
+3) RESUME:
+   - Replace assets/resume.pdf with your actual resume file OR change iframe & download link to the resume location.
+
+4) CONTACT BACKEND (optional):
+   - Currently uses mailto fallback. To enable server-side handling:
+     - Create a Formspree / Netlify / server endpoint.
+     - Replace handleContact() with a fetch POST to your endpoint.
+
+5) DEPLOY:
+   - Create repository and push this index.html plus an /assets folder (hero video, resume.pdf, project images).
+   - For GitHub Pages: push to main branch and enable Pages from repo settings.
+   - For Hostinger: upload via File Manager/FTP to public_html.
+   - For Netlify/Vercel: connect repo and deploy (no build step).
+
+6) TWEAKS:
+   - Edit project descriptions in projectsData.
+   - To add more projects, append objects to projectsData array (id, title, subtitle, description, tags[], image, demo, code).
+   - For heavy hero video -> consider replacing with lighter video or reduce playback resolution for mobile.
+
+Enjoy — this is your full advanced single-file portfolio (video + particles) ready to be customized and deployed.
+If you want, I can now:
+ - convert this to a React component (Tailwind + Framer Motion),
+ - produce the Git commands and repo structure to push to GitHub Pages,
+ - or generate optimized thumbnails for project images.
+Say which one you want next.
+-->
