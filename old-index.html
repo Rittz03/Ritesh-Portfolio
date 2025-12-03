@@ -1,0 +1,589 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Ritesh Pagare — AI Specialist / Tech Genius</title>
+<meta name="description" content="Ritesh Pagare — AI Specialist. Automation & Robotics student building AI apps, computer vision, embedded systems and more." />
+<style>
+  /* -------------------- Root + layout -------------------- */
+  :root{
+    --bg-1:#081125; --bg-2:#041427; --glass: rgba(255,255,255,0.04);
+    --accent-a:#7ef0c7; --accent-b:#6ee7ff; --muted:#9fb4c8; --card:#071428;
+    --radius:14px; --maxw:1200px; --glass-2: rgba(255,255,255,0.02);
+    --mono: ui-monospace, SFMono-Regular, SF Mono, "Segoe UI Mono", Roboto Mono, "Helvetica Neue", monospace;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0; font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
+    background:linear-gradient(180deg,var(--bg-1),var(--bg-2)); color:#e7f1fb;
+    -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+    line-height:1.45; overflow-x:hidden;
+  }
+  .wrap{max-width:var(--maxw); margin:28px auto; padding:18px; position:relative; z-index:1}
+  header{display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:18px}
+  .brand{display:flex; gap:12px; align-items:center}
+  .logo{
+    width:56px; height:56px; border-radius:12px; display:grid; place-items:center;
+    background:linear-gradient(135deg,var(--accent-b),var(--accent-a)); color:#022; font-weight:900; letter-spacing:0.6px;
+    box-shadow: 0 12px 30px rgba(38,153,165,0.12);
+  }
+  nav{display:flex; gap:12px; align-items:center}
+  nav a{color:var(--muted); text-decoration:none; padding:8px 10px; border-radius:10px; font-weight:700; font-size:14px}
+  nav a:hover{color:#fff; background:var(--glass)}
+  /* -------------------- hero -------------------- */
+  .hero-wrap{display:grid; grid-template-columns:1fr 420px; gap:28px; align-items:center; margin-bottom:20px}
+  @media(max-width:980px){ .hero-wrap{grid-template-columns:1fr} nav{display:none} header{align-items:flex-start} }
+  .hero{
+    padding:28px; border-radius:18px; background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+    box-shadow: 0 18px 40px rgba(2,6,12,0.6); position:relative; overflow:hidden;
+  }
+  /* particle canvas sits as absolute layer */
+  .hero-canvas{ position:absolute; inset:0; z-index:0; pointer-events:none; opacity:0.28; mix-blend-mode:screen; }
+  .hero-content{position:relative; z-index:2}
+  .eyebadge{display:inline-flex; gap:8px; align-items:center; background:var(--glass-2); padding:8px 12px; border-radius:999px; color:var(--muted); font-weight:800}
+  h1{margin:12px 0 6px 0; font-size:34px}
+  .titleAccent{background:linear-gradient(90deg,var(--accent-a),var(--accent-b)); -webkit-background-clip:text; background-clip:text; color:transparent; font-weight:900}
+  .typewrap{font-family:var(--mono); font-weight:700; color:var(--accent-b); margin-top:6px}
+  .intro{color:var(--muted); margin-top:12px; max-width:64ch}
+  .cta-row{margin-top:18px; display:flex; gap:12px; flex-wrap:wrap}
+  .btn{
+    padding:10px 14px; border-radius:12px; border:0; cursor:pointer; font-weight:800; font-size:14px;
+    background:linear-gradient(90deg,var(--accent-b),var(--accent-a)); color:#002; text-decoration:none;
+    box-shadow: 0 12px 30px rgba(9,70,82,0.12);
+  }
+  .btn-ghost{background:transparent; border:1px solid rgba(255,255,255,0.06); color:var(--muted)}
+  /* right card */
+  .profile-card{border-radius:14px; padding:18px; background:linear-gradient(180deg, rgba(255,255,255,0.015), transparent); box-shadow: 0 8px 30px rgba(0,0,0,0.6)}
+  .avatar{height:260px; border-radius:10px; display:grid; place-items:center; background:linear-gradient(135deg,#072a3a,#064e5b); font-size:20px; font-weight:900; color:#bfffe9}
+  .quick-grid{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:12px}
+  .badge{display:inline-block; padding:6px 8px; border-radius:999px; background:var(--glass); color:var(--muted); font-weight:800}
+  /* -------------------- sections -------------------- */
+  section{margin-top:28px}
+  h3{margin:0 0 8px 0; font-size:20px}
+  .card{border-radius:12px; padding:16px; background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent); box-shadow: 0 10px 30px rgba(0,0,0,0.6)}
+  .grid{display:grid; gap:16px}
+  .projects{grid-template-columns:repeat(3,1fr)}
+  @media(max-width:1100px){ .projects{grid-template-columns:repeat(2,1fr)} }
+  @media(max-width:720px){ .projects{grid-template-columns:1fr} .hero-wrap{grid-template-columns:1fr} .avatar{height:180px} }
+  /* project card style - 3D tilt + glass */
+  .proj{
+    perspective:1200px;
+  }
+  .proj-card{
+    transform-style:preserve-3d; transition: transform 220ms cubic-bezier(.2,.9,.25,1), box-shadow 220ms;
+    border-radius:12px; padding:16px; height:100%; display:flex; flex-direction:column; gap:10px; justify-content:space-between;
+    background:linear-gradient(180deg, rgba(255,255,255,0.018), rgba(255,255,255,0.01)); border:1px solid rgba(255,255,255,0.03);
+    box-shadow: 0 12px 40px rgba(2,6,12,0.5);
+  }
+  .proj-card:hover{ box-shadow: 0 28px 80px rgba(3,12,30,0.6); transform: translateY(-6px) }
+  .proj-title{font-weight:900}
+  .proj-desc{color:var(--muted); font-size:14px}
+  .proj-tags{display:flex; gap:8px; flex-wrap:wrap}
+  .tag{padding:6px 8px; border-radius:8px; background:rgba(255,255,255,0.02); color:var(--muted); font-weight:800; font-size:12px}
+  .proj-actions{display:flex; gap:10px; margin-top:6px}
+  /* modal */
+  .modal-back{position:fixed; inset:0; background:rgba(2,6,12,0.6); display:grid; place-items:center; z-index:60; opacity:0; pointer-events:none; transition:all 200ms}
+  .modal-back.open{opacity:1; pointer-events:auto}
+  .modal{width:min(820px,96%); background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent); border-radius:12px; padding:18px}
+  .modal .meta{color:var(--muted); font-size:13px}
+  .close{background:transparent; border:1px solid rgba(255,255,255,0.04); padding:8px 10px; border-radius:10px; cursor:pointer}
+  /* skills */
+  .skills-grid{display:grid; grid-template-columns:1fr 320px; gap:18px}
+  @media(max-width:880px){ .skills-grid{grid-template-columns:1fr} }
+  .skill{display:flex; align-items:center; gap:12px}
+  .bar{flex:1; height:10px; background:rgba(255,255,255,0.04); border-radius:999px; overflow:hidden}
+  .bar > i{display:block; height:100%; width:0%; background:linear-gradient(90deg,var(--accent-b),var(--accent-a)); border-radius:999px; transition:width 900ms cubic-bezier(.2,.9,.25,1)}
+  .circle-skill{width:120px; height:120px; border-radius:999px; display:grid; place-items:center; background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent); border:1px solid rgba(255,255,255,0.03)}
+  .circle-skill svg{transform:rotate(-90deg)}
+  /* timeline */
+  .timeline{position:relative; padding-left:14px}
+  .timeline::before{content:""; position:absolute; left:10px; top:8px; bottom:12px; width:2px; background:linear-gradient(180deg,var(--accent-b),var(--accent-a)); opacity:0.14}
+  .event{position:relative; margin-bottom:18px; padding-left:28px}
+  .event .dot{position:absolute; left:0; top:6px; width:16px; height:16px; border-radius:999px; background:linear-gradient(90deg,var(--accent-b),var(--accent-a)); box-shadow:0 6px 14px rgba(14,120,130,0.12)}
+  .event h4{margin:0}
+  .muted{color:var(--muted)}
+  /* contact */
+  .contact-grid{display:grid; grid-template-columns:1fr 320px; gap:18px}
+  @media (max-width:880px){ .contact-grid{grid-template-columns:1fr} }
+  input,textarea{width:100%; padding:10px; border-radius:10px; background:transparent; border:1px solid rgba(255,255,255,0.05); color:inherit}
+  label{font-weight:800; font-size:13px; margin-bottom:6px; display:block}
+  .small{font-size:13px; color:var(--muted)}
+  /* footer */
+  footer{margin-top:40px; text-align:center; color:var(--muted); padding-bottom:40px}
+  /* small UX */
+  .reveal{opacity:0; transform:translateY(12px); transition:all 650ms cubic-bezier(.2,.9,.25,1)}
+  .reveal.in{opacity:1; transform:none}
+  /* micro-animations */
+  @keyframes blink { 50% { opacity:0 } }
+  .cursor{display:inline-block; width:10px; height:18px; background:var(--accent-b); margin-left:6px; animation:blink 1s steps(2) infinite}
+  /* responsive tweaks */
+  .stack{display:flex; gap:12px; align-items:center; flex-wrap:wrap}
+</style>
+</head>
+<body>
+  <!-- Particle canvas background (behind everything) -->
+  <canvas id="particles" class="hero-canvas" aria-hidden="true"></canvas>
+
+  <div class="wrap" role="main">
+    <header>
+      <div class="brand">
+        <div class="logo">RP</div>
+        <div>
+          <div style="font-weight:900">Ritesh Pagare</div>
+          <div class="small muted">AI Specialist • Automation & Robotics</div>
+        </div>
+      </div>
+
+      <nav aria-label="Primary navigation">
+        <a href="#home">Home</a>
+        <a href="#projects">Projects</a>
+        <a href="#skills">Skills</a>
+        <a href="#timeline">Timeline</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- HERO -->
+    <div id="home" class="hero-wrap">
+      <section class="hero card reveal" style="min-height:320px">
+        <canvas id="heroGlow" style="position:absolute; inset:0; z-index:0; pointer-events:none; opacity:0.45"></canvas>
+
+        <div class="hero-content">
+          <div class="eyebadge">AI Specialist <span style="opacity:0.35; margin-left:8px">• Tech Genius</span></div>
+          <h1>Hi, I’m <span class="titleAccent">Ritesh Pagare</span></h1>
+          <div class="typewrap" aria-hidden="true">
+            <span id="typed">Building intelligent systems</span><span class="cursor" aria-hidden="true"></span>
+          </div>
+          <p class="intro">I transform machine learning models into real-world products — from OCR-driven automation tools to Android safety apps and embedded robotics systems. I build fast prototypes and production-ready demos.</p>
+
+          <div class="cta-row">
+            <a class="btn" href="#projects">See Projects</a>
+            <a class="btn btn-ghost" href="resume.pdf" download id="resumeBtn">Download Resume</a>
+            <a class="btn btn-ghost" href="#contact">Work with me</a>
+          </div>
+
+          <div style="margin-top:18px" class="stack">
+            <div class="badge">Python • OpenCV • TensorFlow</div>
+            <div class="badge">Kotlin • Jetpack • Android</div>
+            <div class="badge">ROS • Embedded • CV</div>
+          </div>
+        </div>
+      </section>
+
+      <aside class="profile-card reveal">
+        <div class="avatar">Ritesh Pagare</div>
+        <div style="margin-top:12px; display:flex; gap:10px; align-items:center; justify-content:space-between">
+          <div>
+            <div style="font-weight:900">Available for internships</div>
+            <div class="small muted">Open to collaboration & freelance</div>
+          </div>
+        </div>
+
+        <div style="margin-top:12px" class="quick-grid">
+          <div class="card small muted">
+            <div style="font-weight:900">Location</div>
+            <div>Nashik, India</div>
+          </div>
+          <div class="card small muted">
+            <div style="font-weight:900">Contact</div>
+            <div>riteshpagare03@gmail.com</div>
+          </div>
+        </div>
+
+        <div style="margin-top:12px; display:flex; gap:8px; align-items:center">
+          <!-- social placeholders -->
+          <a class="badge" href="#" title="GitHub">GitHub</a>
+          <a class="badge" href="#" title="LinkedIn">LinkedIn</a>
+          <a class="badge" href="#" title="Instagram">Instagram</a>
+        </div>
+      </aside>
+    </div>
+
+    <!-- PROJECTS -->
+    <section id="projects" class="reveal">
+      <h3>Selected Projects</h3>
+      <p class="small muted">Interactive demos, mobile apps & automation tools</p>
+
+      <div class="grid projects" style="margin-top:12px">
+        <!-- Project 1 -->
+        <div class="proj reveal" data-tilt data-tilt-max="12">
+          <div class="proj-card" data-proj="raksha">
+            <div>
+              <div class="proj-title">RakshaAI • Women Safety App</div>
+              <div class="proj-desc">Voice-activated SOS, stealth mode, live tracking, fake-call, and hidden recording — Kotlin & Jetpack Compose.</div>
+            </div>
+            <div>
+              <div class="proj-tags">
+                <span class="tag">Android</span><span class="tag">Kotlin</span><span class="tag">Location</span>
+              </div>
+              <div class="proj-actions">
+                <button class="btn btn-ghost" data-open="raksha">Details</button>
+                <a class="btn" href="#" onclick="notifyPlaceholder()">View</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 2 -->
+        <div class="proj reveal" data-tilt data-tilt-max="10">
+          <div class="proj-card" data-proj="machinescan">
+            <div>
+              <div class="proj-title">MachineScanApp • OCR Automation</div>
+              <div class="proj-desc">Offline Tesseract OCR, auto-folderization by Machine ID and upload automation. Python prototype.</div>
+            </div>
+            <div>
+              <div class="proj-tags"><span class="tag">Python</span><span class="tag">OpenCV</span><span class="tag">Tesseract</span></div>
+              <div class="proj-actions">
+                <button class="btn btn-ghost" data-open="machinescan">Details</button>
+                <a class="btn" href="#" onclick="notifyPlaceholder()">Code</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 3 -->
+        <div class="proj reveal" data-tilt data-tilt-max="12">
+          <div class="proj-card" data-proj="novatech">
+            <div>
+              <div class="proj-title">NovaTech.AI • Startup Site</div>
+              <div class="proj-desc">Responsive product site, deploy-ready. Static HTML + GitHub Pages integration.</div>
+            </div>
+            <div>
+              <div class="proj-tags"><span class="tag">Web</span><span class="tag">React</span><span class="tag">GH Pages</span></div>
+              <div class="proj-actions">
+                <button class="btn btn-ghost" data-open="novatech">Details</button>
+                <a class="btn" href="#" onclick="notifyPlaceholder()">Open</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills" class="reveal">
+      <h3>Skills</h3>
+      <div class="skills-grid" style="margin-top:12px">
+        <div class="card">
+          <div style="display:flex; flex-direction:column; gap:12px">
+            <div class="skill">
+              <div style="width:120px; font-weight:900">Machine Learning</div>
+              <div class="bar"><i data-width="90%"></i></div>
+              <div class="small muted" style="min-width:48px; text-align:right">90%</div>
+            </div>
+
+            <div class="skill">
+              <div style="width:120px; font-weight:900">Computer Vision</div>
+              <div class="bar"><i data-width="92%"></i></div>
+              <div class="small muted" style="min-width:48px; text-align:right">92%</div>
+            </div>
+
+            <div class="skill">
+              <div style="width:120px; font-weight:900">Embedded/ROS</div>
+              <div class="bar"><i data-width="70%"></i></div>
+              <div class="small muted" style="min-width:48px; text-align:right">70%</div>
+            </div>
+
+            <div class="skill">
+              <div style="width:120px; font-weight:900">Android</div>
+              <div class="bar"><i data-width="86%"></i></div>
+              <div class="small muted" style="min-width:48px; text-align:right">86%</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="display:flex; flex-direction:column; align-items:center; gap:12px; justify-content:center">
+          <div class="circle-skill" aria-hidden="true">
+            <svg width="110" height="110" viewBox="0 0 36 36">
+              <path d="M18 2.0845a15.9155 15.9155 0 1 0 0 31.831 15.9155 15.9155 0 1 0 0-31.831" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="3"/>
+              <path id="circ" d="M18 2.0845a15.9155 15.9155 0 1 0 0 31.831" fill="none" stroke-width="3" stroke-linecap="round" stroke="url(#grad)"/>
+              <defs>
+                <linearGradient id="grad" x1="0" x2="1">
+                  <stop offset="0" stop-color="#6ee7ff"/>
+                  <stop offset="1" stop-color="#7ef0c7"/>
+                </linearGradient>
+              </defs>
+            </svg>
+            <div style="position:absolute; text-align:center; font-weight:900">RP<br><span style="font-weight:800; color:var(--muted); font-size:12px">Tech Genius</span></div>
+          </div>
+          <div class="small muted">Top strength: Computer Vision & Model deployment</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TIMELINE -->
+    <section id="timeline" class="reveal">
+      <h3>Timeline</h3>
+      <div class="timeline card" style="margin-top:12px">
+        <div class="event">
+          <div class="dot"></div>
+          <h4>Building RakshaAI — Aug 2025</h4>
+          <div class="small muted">Developed core SOS, voice trigger, and live location sharing in Kotlin.</div>
+        </div>
+
+        <div class="event">
+          <div class="dot"></div>
+          <h4>MachineScanApp prototype — Jul 2025</h4>
+          <div class="small muted">Offline OCR, auto-folderization, and prototype testing with Tesseract & OpenCV.</div>
+        </div>
+
+        <div class="event">
+          <div class="dot"></div>
+          <h4>NovaTech.AI site & projects — 2025</h4>
+          <div class="small muted">Startup website & portfolio deployment to GitHub Pages.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="reveal">
+      <h3>Contact</h3>
+      <p class="small muted">Let's collaborate — internships, freelance, or project ideas.</p>
+
+      <div class="contact-grid" style="margin-top:12px">
+        <div class="card">
+          <form id="contactForm" onsubmit="onContact(event)" novalidate>
+            <label for="cname">Name</label>
+            <input id="cname" required placeholder="Your name" />
+
+            <label for="cemail" style="margin-top:8px">Email</label>
+            <input id="cemail" type="email" required placeholder="you@company.com" />
+
+            <label for="cmsg" style="margin-top:8px">Message</label>
+            <textarea id="cmsg" rows="5" required placeholder="Tell me about the project or opportunity"></textarea>
+
+            <div style="display:flex; gap:8px; margin-top:10px">
+              <button class="btn" type="submit">Send Message</button>
+              <a class="btn btn-ghost" href="mailto:riteshpagare03@gmail.com?subject=Hello%20Ritesh">Email Me</a>
+            </div>
+            <div id="formNote" class="small muted" style="margin-top:8px">If JS email isn't configured, the mailto fallback will open your email client.</div>
+          </form>
+        </div>
+
+        <aside class="card">
+          <div style="font-weight:900">Get in touch</div>
+          <div class="small muted" style="margin-top:8px"><strong>Email:</strong> riteshpagare03@gmail.com</div>
+          <div class="small muted"><strong>Phone:</strong> +91 (add number)</div>
+          <div style="margin-top:12px" class="small muted">Replace social links with your real GitHub/LinkedIn/Instagram profiles.</div>
+        </aside>
+      </div>
+    </section>
+
+    <footer class="reveal">
+      <div>Made with ❤ by <strong>Ritesh Pagare</strong> — AI Specialist</div>
+      <div class="small muted">© <span id="year"></span> • Nashik, India</div>
+    </footer>
+  </div>
+
+  <!-- Project modal (single, reused) -->
+  <div id="modalBack" class="modal-back" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div style="display:flex; justify-content:space-between; gap:12px; align-items:start">
+        <div>
+          <h3 id="modalTitle">Project</h3>
+          <div id="modalMeta" class="meta">Project subtitle</div>
+        </div>
+        <div style="display:flex; gap:8px">
+          <button class="close" onclick="closeModal()">Close</button>
+        </div>
+      </div>
+
+      <div id="modalBody" style="margin-top:12px; color:var(--muted)">Project details appear here.</div>
+      <div style="margin-top:12px; display:flex; gap:8px">
+        <a id="modalLink" class="btn" href="#" target="_blank">Open Demo</a>
+        <a id="modalCode" class="btn btn-ghost" href="#" target="_blank">View Code</a>
+      </div>
+    </div>
+  </div>
+
+<script>
+/* ===================== helper + UX ===================== */
+document.getElementById('year').textContent = new Date().getFullYear();
+function notifyPlaceholder(){ alert('Replace placeholder links with your real demo or repository URLs.'); }
+
+/* ----------------- Typewriter rotate ----------------- */
+const phrases = ["Building intelligent systems.", "Turning prototypes into products.", "Computer Vision • Android • Robotics."];
+let pIndex = 0, tIndex = 0;
+const typedEl = document.getElementById('typed');
+
+function typeTick(){
+  const phrase = phrases[pIndex];
+  typedEl.textContent = phrase.slice(0, tIndex);
+  tIndex++;
+  if(tIndex > phrase.length){
+    setTimeout(()=>{ tIndex = 0; pIndex = (pIndex+1)%phrases.length; typeTick(); }, 1200);
+  } else {
+    setTimeout(typeTick, 50);
+  }
+}
+typeTick();
+
+/* ----------------- Intersection reveal ----------------- */
+const io = new IntersectionObserver((items)=>{
+  items.forEach(i=>{
+    if(i.isIntersecting){ i.target.classList.add('in'); io.unobserve(i.target); }
+  });
+},{threshold:0.12});
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+/* ----------------- Skill bar animation ----------------- */
+document.querySelectorAll('.bar i').forEach(el=>{
+  const w = el.getAttribute('data-width') || '70%';
+  setTimeout(()=> el.style.width = w, 600);
+});
+/* circular skill animation */
+const circ = document.getElementById('circ');
+const circleLen = 100; // map percentage to stroke-dash
+if(circ){
+  circ.style.strokeDasharray = '0 1000';
+  setTimeout(()=> {
+    const pct = 88; // change to your overall skill %
+    const dash = (pct/100)*1000;
+    circ.style.strokeDasharray = dash + ' 1000';
+    circ.style.transition = 'stroke-dasharray 1200ms cubic-bezier(.2,.9,.25,1)';
+  }, 700);
+}
+
+/* ----------------- Modal project details ----------------- */
+const projects = {
+  raksha: {
+    title: 'RakshaAI — Women Safety App',
+    meta: 'Kotlin • Android • Live location • SOS',
+    body: `Voice-activated SOS, stealth mode, fake-call, live location sharing and hidden recording. Built with Jetpack Compose. Features include fast emergency workflows and low-power background location.`,
+    demo:'#', code:'#'
+  },
+  machinescan: {
+    title: 'MachineScanApp — OCR Automation',
+    meta: 'Python • OpenCV • Tesseract',
+    body: `Automatic image capture, local OCR using Tesseract, folderization by Machine ID and automated uploads. Designed for workshop and inspection flows.`,
+    demo:'#', code:'#'
+  },
+  novatech: {
+    title: 'NovaTech.AI — Startup Site',
+    meta: 'Web • React • GitHub Pages',
+    body: `Product website for NovaTech.AI with responsive layout and deploy-ready static build. Included CI/CD instructions for GitHub Pages.`,
+    demo:'#', code:'#'
+  }
+};
+
+document.querySelectorAll('[data-open]').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    const id = btn.getAttribute('data-open');
+    openModal(id);
+  });
+});
+
+function openModal(id){
+  const p = projects[id];
+  if(!p) return;
+  document.getElementById('modalTitle').textContent = p.title;
+  document.getElementById('modalMeta').textContent = p.meta;
+  document.getElementById('modalBody').textContent = p.body;
+  document.getElementById('modalLink').href = p.demo;
+  document.getElementById('modalCode').href = p.code;
+  const mb = document.getElementById('modalBack');
+  mb.classList.add('open'); mb.setAttribute('aria-hidden','false');
+}
+function closeModal(){ const mb = document.getElementById('modalBack'); mb.classList.remove('open'); mb.setAttribute('aria-hidden','true'); }
+document.getElementById('modalBack').addEventListener('click', (e)=>{ if(e.target.id==='modalBack') closeModal(); });
+
+/* ----------------- 3D tilt (lightweight) ----------------- */
+function attachTilt(root){
+  root.querySelectorAll('[data-tilt]').forEach(el=>{
+    const inner = el.querySelector('.proj-card');
+    let rect;
+    el.addEventListener('mousemove', (ev)=>{
+      rect = el.getBoundingClientRect();
+      const x = (ev.clientX - rect.left) / rect.width - 0.5;
+      const y = (ev.clientY - rect.top) / rect.height - 0.5;
+      const max = parseInt(el.getAttribute('data-tilt-max') || 12);
+      inner.style.transform = `rotateX(${(-y*max).toFixed(2)}deg) rotateY(${(x*max).toFixed(2)}deg) translateZ(6px)`;
+    });
+    el.addEventListener('mouseleave', ()=> inner.style.transform = 'none');
+  });
+}
+attachTilt(document);
+
+/* ----------------- contact form ----------------- */
+function onContact(e){
+  e.preventDefault();
+  const name = document.getElementById('cname').value.trim();
+  const email = document.getElementById('cemail').value.trim();
+  const msg = document.getElementById('cmsg').value.trim();
+  if(!name||!email||!msg){ alert('Please fill all fields'); return; }
+  const subject = encodeURIComponent('Portfolio contact from ' + name);
+  const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${msg}`);
+  window.location.href = `mailto:riteshpagare03@gmail.com?subject=${subject}&body=${body}`;
+}
+
+/* ----------------- particles (canvas) ----------------- */
+(function(){
+  const canvas = document.getElementById('particles');
+  const ctx = canvas.getContext('2d');
+  let W = canvas.width = innerWidth;
+  let H = canvas.height = innerHeight;
+  const N = Math.floor((W*H)/12000); // density
+  const parts = [];
+  function rand(min,max){ return Math.random()*(max-min)+min; }
+  for(let i=0;i<N;i++){
+    parts.push({x:rand(0,W), y:rand(0,H), r:rand(0.4,1.8), vx:rand(-0.2,0.2), vy:rand(-0.2,0.2), life:rand(80,220)});
+  }
+  function resize(){ W=canvas.width=innerWidth; H=canvas.height=innerHeight; }
+  addEventListener('resize', resize);
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    for(let p of parts){
+      p.x += p.vx; p.y += p.vy;
+      p.life -= 0.2;
+      if(p.x < -10) p.x = W+10; if(p.x > W+10) p.x=-10;
+      if(p.y < -10) p.y = H+10; if(p.y > H+10) p.y=-10;
+      if(p.life < 0){ p.x = rand(0,W); p.y = rand(0,H); p.life = rand(80,220); }
+      ctx.beginPath();
+      const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r*12);
+      g.addColorStop(0, 'rgba(126,240,199,' + (0.18*p.r).toFixed(2) + ')');
+      g.addColorStop(1, 'rgba(110,231,255,0)');
+      ctx.fillStyle = g;
+      ctx.arc(p.x, p.y, p.r*12, 0, Math.PI*2);
+      ctx.fill();
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* ----------------- subtle hero glow (animated radial) ----------------- */
+(function(){
+  const c = document.getElementById('heroGlow'), ctx = c.getContext('2d');
+  function resize(){ c.width = c.clientWidth || innerWidth; c.height = c.clientHeight || 480; }
+  resize(); addEventListener('resize', resize);
+  let t=0;
+  function gdraw(){
+    ctx.clearRect(0,0,c.width,c.height);
+    const w=c.width, h=c.height;
+    const cx = w*0.18 + Math.sin(t*0.0045)*80;
+    const cy = h*0.38 + Math.cos(t*0.003)*40;
+    const rg = ctx.createRadialGradient(cx,cy,10, cx,cy, Math.max(w,h)*0.9);
+    rg.addColorStop(0, 'rgba(110,231,199,0.06)');
+    rg.addColorStop(0.4,'rgba(110,231,255,0.02)');
+    rg.addColorStop(1,'rgba(2,6,12,0)');
+    ctx.fillStyle = rg;
+    ctx.fillRect(0,0,w,h);
+    t++; requestAnimationFrame(gdraw);
+  }
+  gdraw();
+})();
+
+/* ----------------- small keyboard accessibility: close modal on Esc ----------------- */
+document.addEventListener('keydown', (e)=> {
+  if(e.key==='Escape') closeModal();
+});
+
+/* ----------------- progressive enhancement: open resume in new tab if exists ----------------- */
+document.getElementById('resumeBtn').addEventListener('click', (e)=>{
+  // default anchor handles download if resume.pdf exists. Keep as is.
+});
+</script>
+</body>
+</html>

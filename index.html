@@ -1,589 +1,595 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Ritesh Pagare — AI Specialist / Tech Genius</title>
-<meta name="description" content="Ritesh Pagare — AI Specialist. Automation & Robotics student building AI apps, computer vision, embedded systems and more." />
-<style>
-  /* -------------------- Root + layout -------------------- */
-  :root{
-    --bg-1:#081125; --bg-2:#041427; --glass: rgba(255,255,255,0.04);
-    --accent-a:#7ef0c7; --accent-b:#6ee7ff; --muted:#9fb4c8; --card:#071428;
-    --radius:14px; --maxw:1200px; --glass-2: rgba(255,255,255,0.02);
-    --mono: ui-monospace, SFMono-Regular, SF Mono, "Segoe UI Mono", Roboto Mono, "Helvetica Neue", monospace;
-  }
-  *{box-sizing:border-box}
-  html,body{height:100%}
-  body{
-    margin:0; font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
-    background:linear-gradient(180deg,var(--bg-1),var(--bg-2)); color:#e7f1fb;
-    -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
-    line-height:1.45; overflow-x:hidden;
-  }
-  .wrap{max-width:var(--maxw); margin:28px auto; padding:18px; position:relative; z-index:1}
-  header{display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:18px}
-  .brand{display:flex; gap:12px; align-items:center}
-  .logo{
-    width:56px; height:56px; border-radius:12px; display:grid; place-items:center;
-    background:linear-gradient(135deg,var(--accent-b),var(--accent-a)); color:#022; font-weight:900; letter-spacing:0.6px;
-    box-shadow: 0 12px 30px rgba(38,153,165,0.12);
-  }
-  nav{display:flex; gap:12px; align-items:center}
-  nav a{color:var(--muted); text-decoration:none; padding:8px 10px; border-radius:10px; font-weight:700; font-size:14px}
-  nav a:hover{color:#fff; background:var(--glass)}
-  /* -------------------- hero -------------------- */
-  .hero-wrap{display:grid; grid-template-columns:1fr 420px; gap:28px; align-items:center; margin-bottom:20px}
-  @media(max-width:980px){ .hero-wrap{grid-template-columns:1fr} nav{display:none} header{align-items:flex-start} }
-  .hero{
-    padding:28px; border-radius:18px; background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
-    box-shadow: 0 18px 40px rgba(2,6,12,0.6); position:relative; overflow:hidden;
-  }
-  /* particle canvas sits as absolute layer */
-  .hero-canvas{ position:absolute; inset:0; z-index:0; pointer-events:none; opacity:0.28; mix-blend-mode:screen; }
-  .hero-content{position:relative; z-index:2}
-  .eyebadge{display:inline-flex; gap:8px; align-items:center; background:var(--glass-2); padding:8px 12px; border-radius:999px; color:var(--muted); font-weight:800}
-  h1{margin:12px 0 6px 0; font-size:34px}
-  .titleAccent{background:linear-gradient(90deg,var(--accent-a),var(--accent-b)); -webkit-background-clip:text; background-clip:text; color:transparent; font-weight:900}
-  .typewrap{font-family:var(--mono); font-weight:700; color:var(--accent-b); margin-top:6px}
-  .intro{color:var(--muted); margin-top:12px; max-width:64ch}
-  .cta-row{margin-top:18px; display:flex; gap:12px; flex-wrap:wrap}
-  .btn{
-    padding:10px 14px; border-radius:12px; border:0; cursor:pointer; font-weight:800; font-size:14px;
-    background:linear-gradient(90deg,var(--accent-b),var(--accent-a)); color:#002; text-decoration:none;
-    box-shadow: 0 12px 30px rgba(9,70,82,0.12);
-  }
-  .btn-ghost{background:transparent; border:1px solid rgba(255,255,255,0.06); color:var(--muted)}
-  /* right card */
-  .profile-card{border-radius:14px; padding:18px; background:linear-gradient(180deg, rgba(255,255,255,0.015), transparent); box-shadow: 0 8px 30px rgba(0,0,0,0.6)}
-  .avatar{height:260px; border-radius:10px; display:grid; place-items:center; background:linear-gradient(135deg,#072a3a,#064e5b); font-size:20px; font-weight:900; color:#bfffe9}
-  .quick-grid{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:12px}
-  .badge{display:inline-block; padding:6px 8px; border-radius:999px; background:var(--glass); color:var(--muted); font-weight:800}
-  /* -------------------- sections -------------------- */
-  section{margin-top:28px}
-  h3{margin:0 0 8px 0; font-size:20px}
-  .card{border-radius:12px; padding:16px; background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent); box-shadow: 0 10px 30px rgba(0,0,0,0.6)}
-  .grid{display:grid; gap:16px}
-  .projects{grid-template-columns:repeat(3,1fr)}
-  @media(max-width:1100px){ .projects{grid-template-columns:repeat(2,1fr)} }
-  @media(max-width:720px){ .projects{grid-template-columns:1fr} .hero-wrap{grid-template-columns:1fr} .avatar{height:180px} }
-  /* project card style - 3D tilt + glass */
-  .proj{
-    perspective:1200px;
-  }
-  .proj-card{
-    transform-style:preserve-3d; transition: transform 220ms cubic-bezier(.2,.9,.25,1), box-shadow 220ms;
-    border-radius:12px; padding:16px; height:100%; display:flex; flex-direction:column; gap:10px; justify-content:space-between;
-    background:linear-gradient(180deg, rgba(255,255,255,0.018), rgba(255,255,255,0.01)); border:1px solid rgba(255,255,255,0.03);
-    box-shadow: 0 12px 40px rgba(2,6,12,0.5);
-  }
-  .proj-card:hover{ box-shadow: 0 28px 80px rgba(3,12,30,0.6); transform: translateY(-6px) }
-  .proj-title{font-weight:900}
-  .proj-desc{color:var(--muted); font-size:14px}
-  .proj-tags{display:flex; gap:8px; flex-wrap:wrap}
-  .tag{padding:6px 8px; border-radius:8px; background:rgba(255,255,255,0.02); color:var(--muted); font-weight:800; font-size:12px}
-  .proj-actions{display:flex; gap:10px; margin-top:6px}
-  /* modal */
-  .modal-back{position:fixed; inset:0; background:rgba(2,6,12,0.6); display:grid; place-items:center; z-index:60; opacity:0; pointer-events:none; transition:all 200ms}
-  .modal-back.open{opacity:1; pointer-events:auto}
-  .modal{width:min(820px,96%); background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent); border-radius:12px; padding:18px}
-  .modal .meta{color:var(--muted); font-size:13px}
-  .close{background:transparent; border:1px solid rgba(255,255,255,0.04); padding:8px 10px; border-radius:10px; cursor:pointer}
-  /* skills */
-  .skills-grid{display:grid; grid-template-columns:1fr 320px; gap:18px}
-  @media(max-width:880px){ .skills-grid{grid-template-columns:1fr} }
-  .skill{display:flex; align-items:center; gap:12px}
-  .bar{flex:1; height:10px; background:rgba(255,255,255,0.04); border-radius:999px; overflow:hidden}
-  .bar > i{display:block; height:100%; width:0%; background:linear-gradient(90deg,var(--accent-b),var(--accent-a)); border-radius:999px; transition:width 900ms cubic-bezier(.2,.9,.25,1)}
-  .circle-skill{width:120px; height:120px; border-radius:999px; display:grid; place-items:center; background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent); border:1px solid rgba(255,255,255,0.03)}
-  .circle-skill svg{transform:rotate(-90deg)}
-  /* timeline */
-  .timeline{position:relative; padding-left:14px}
-  .timeline::before{content:""; position:absolute; left:10px; top:8px; bottom:12px; width:2px; background:linear-gradient(180deg,var(--accent-b),var(--accent-a)); opacity:0.14}
-  .event{position:relative; margin-bottom:18px; padding-left:28px}
-  .event .dot{position:absolute; left:0; top:6px; width:16px; height:16px; border-radius:999px; background:linear-gradient(90deg,var(--accent-b),var(--accent-a)); box-shadow:0 6px 14px rgba(14,120,130,0.12)}
-  .event h4{margin:0}
-  .muted{color:var(--muted)}
-  /* contact */
-  .contact-grid{display:grid; grid-template-columns:1fr 320px; gap:18px}
-  @media (max-width:880px){ .contact-grid{grid-template-columns:1fr} }
-  input,textarea{width:100%; padding:10px; border-radius:10px; background:transparent; border:1px solid rgba(255,255,255,0.05); color:inherit}
-  label{font-weight:800; font-size:13px; margin-bottom:6px; display:block}
-  .small{font-size:13px; color:var(--muted)}
-  /* footer */
-  footer{margin-top:40px; text-align:center; color:var(--muted); padding-bottom:40px}
-  /* small UX */
-  .reveal{opacity:0; transform:translateY(12px); transition:all 650ms cubic-bezier(.2,.9,.25,1)}
-  .reveal.in{opacity:1; transform:none}
-  /* micro-animations */
-  @keyframes blink { 50% { opacity:0 } }
-  .cursor{display:inline-block; width:10px; height:18px; background:var(--accent-b); margin-left:6px; animation:blink 1s steps(2) infinite}
-  /* responsive tweaks */
-  .stack{display:flex; gap:12px; align-items:center; flex-wrap:wrap}
-</style>
-</head>
-<body>
-  <!-- Particle canvas background (behind everything) -->
-  <canvas id="particles" class="hero-canvas" aria-hidden="true"></canvas>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ritesh Pagare | Automation · AI · Cyber</title>
 
-  <div class="wrap" role="main">
-    <header>
-      <div class="brand">
-        <div class="logo">RP</div>
-        <div>
-          <div style="font-weight:900">Ritesh Pagare</div>
-          <div class="small muted">AI Specialist • Automation & Robotics</div>
-        </div>
-      </div>
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
 
-      <nav aria-label="Primary navigation">
-        <a href="#home">Home</a>
-        <a href="#projects">Projects</a>
-        <a href="#skills">Skills</a>
-        <a href="#timeline">Timeline</a>
-        <a href="#contact">Contact</a>
-      </nav>
-    </header>
+  <style>
+    html { scroll-behavior: smooth; }
 
-    <!-- HERO -->
-    <div id="home" class="hero-wrap">
-      <section class="hero card reveal" style="min-height:320px">
-        <canvas id="heroGlow" style="position:absolute; inset:0; z-index:0; pointer-events:none; opacity:0.45"></canvas>
-
-        <div class="hero-content">
-          <div class="eyebadge">AI Specialist <span style="opacity:0.35; margin-left:8px">• Tech Genius</span></div>
-          <h1>Hi, I’m <span class="titleAccent">Ritesh Pagare</span></h1>
-          <div class="typewrap" aria-hidden="true">
-            <span id="typed">Building intelligent systems</span><span class="cursor" aria-hidden="true"></span>
-          </div>
-          <p class="intro">I transform machine learning models into real-world products — from OCR-driven automation tools to Android safety apps and embedded robotics systems. I build fast prototypes and production-ready demos.</p>
-
-          <div class="cta-row">
-            <a class="btn" href="#projects">See Projects</a>
-            <a class="btn btn-ghost" href="resume.pdf" download id="resumeBtn">Download Resume</a>
-            <a class="btn btn-ghost" href="#contact">Work with me</a>
-          </div>
-
-          <div style="margin-top:18px" class="stack">
-            <div class="badge">Python • OpenCV • TensorFlow</div>
-            <div class="badge">Kotlin • Jetpack • Android</div>
-            <div class="badge">ROS • Embedded • CV</div>
-          </div>
-        </div>
-      </section>
-
-      <aside class="profile-card reveal">
-        <div class="avatar">Ritesh Pagare</div>
-        <div style="margin-top:12px; display:flex; gap:10px; align-items:center; justify-content:space-between">
-          <div>
-            <div style="font-weight:900">Available for internships</div>
-            <div class="small muted">Open to collaboration & freelance</div>
-          </div>
-        </div>
-
-        <div style="margin-top:12px" class="quick-grid">
-          <div class="card small muted">
-            <div style="font-weight:900">Location</div>
-            <div>Nashik, India</div>
-          </div>
-          <div class="card small muted">
-            <div style="font-weight:900">Contact</div>
-            <div>riteshpagare03@gmail.com</div>
-          </div>
-        </div>
-
-        <div style="margin-top:12px; display:flex; gap:8px; align-items:center">
-          <!-- social placeholders -->
-          <a class="badge" href="#" title="GitHub">GitHub</a>
-          <a class="badge" href="#" title="LinkedIn">LinkedIn</a>
-          <a class="badge" href="#" title="Instagram">Instagram</a>
-        </div>
-      </aside>
-    </div>
-
-    <!-- PROJECTS -->
-    <section id="projects" class="reveal">
-      <h3>Selected Projects</h3>
-      <p class="small muted">Interactive demos, mobile apps & automation tools</p>
-
-      <div class="grid projects" style="margin-top:12px">
-        <!-- Project 1 -->
-        <div class="proj reveal" data-tilt data-tilt-max="12">
-          <div class="proj-card" data-proj="raksha">
-            <div>
-              <div class="proj-title">RakshaAI • Women Safety App</div>
-              <div class="proj-desc">Voice-activated SOS, stealth mode, live tracking, fake-call, and hidden recording — Kotlin & Jetpack Compose.</div>
-            </div>
-            <div>
-              <div class="proj-tags">
-                <span class="tag">Android</span><span class="tag">Kotlin</span><span class="tag">Location</span>
-              </div>
-              <div class="proj-actions">
-                <button class="btn btn-ghost" data-open="raksha">Details</button>
-                <a class="btn" href="#" onclick="notifyPlaceholder()">View</a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Project 2 -->
-        <div class="proj reveal" data-tilt data-tilt-max="10">
-          <div class="proj-card" data-proj="machinescan">
-            <div>
-              <div class="proj-title">MachineScanApp • OCR Automation</div>
-              <div class="proj-desc">Offline Tesseract OCR, auto-folderization by Machine ID and upload automation. Python prototype.</div>
-            </div>
-            <div>
-              <div class="proj-tags"><span class="tag">Python</span><span class="tag">OpenCV</span><span class="tag">Tesseract</span></div>
-              <div class="proj-actions">
-                <button class="btn btn-ghost" data-open="machinescan">Details</button>
-                <a class="btn" href="#" onclick="notifyPlaceholder()">Code</a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Project 3 -->
-        <div class="proj reveal" data-tilt data-tilt-max="12">
-          <div class="proj-card" data-proj="novatech">
-            <div>
-              <div class="proj-title">NovaTech.AI • Startup Site</div>
-              <div class="proj-desc">Responsive product site, deploy-ready. Static HTML + GitHub Pages integration.</div>
-            </div>
-            <div>
-              <div class="proj-tags"><span class="tag">Web</span><span class="tag">React</span><span class="tag">GH Pages</span></div>
-              <div class="proj-actions">
-                <button class="btn btn-ghost" data-open="novatech">Details</button>
-                <a class="btn" href="#" onclick="notifyPlaceholder()">Open</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- SKILLS -->
-    <section id="skills" class="reveal">
-      <h3>Skills</h3>
-      <div class="skills-grid" style="margin-top:12px">
-        <div class="card">
-          <div style="display:flex; flex-direction:column; gap:12px">
-            <div class="skill">
-              <div style="width:120px; font-weight:900">Machine Learning</div>
-              <div class="bar"><i data-width="90%"></i></div>
-              <div class="small muted" style="min-width:48px; text-align:right">90%</div>
-            </div>
-
-            <div class="skill">
-              <div style="width:120px; font-weight:900">Computer Vision</div>
-              <div class="bar"><i data-width="92%"></i></div>
-              <div class="small muted" style="min-width:48px; text-align:right">92%</div>
-            </div>
-
-            <div class="skill">
-              <div style="width:120px; font-weight:900">Embedded/ROS</div>
-              <div class="bar"><i data-width="70%"></i></div>
-              <div class="small muted" style="min-width:48px; text-align:right">70%</div>
-            </div>
-
-            <div class="skill">
-              <div style="width:120px; font-weight:900">Android</div>
-              <div class="bar"><i data-width="86%"></i></div>
-              <div class="small muted" style="min-width:48px; text-align:right">86%</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="card" style="display:flex; flex-direction:column; align-items:center; gap:12px; justify-content:center">
-          <div class="circle-skill" aria-hidden="true">
-            <svg width="110" height="110" viewBox="0 0 36 36">
-              <path d="M18 2.0845a15.9155 15.9155 0 1 0 0 31.831 15.9155 15.9155 0 1 0 0-31.831" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="3"/>
-              <path id="circ" d="M18 2.0845a15.9155 15.9155 0 1 0 0 31.831" fill="none" stroke-width="3" stroke-linecap="round" stroke="url(#grad)"/>
-              <defs>
-                <linearGradient id="grad" x1="0" x2="1">
-                  <stop offset="0" stop-color="#6ee7ff"/>
-                  <stop offset="1" stop-color="#7ef0c7"/>
-                </linearGradient>
-              </defs>
-            </svg>
-            <div style="position:absolute; text-align:center; font-weight:900">RP<br><span style="font-weight:800; color:var(--muted); font-size:12px">Tech Genius</span></div>
-          </div>
-          <div class="small muted">Top strength: Computer Vision & Model deployment</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- TIMELINE -->
-    <section id="timeline" class="reveal">
-      <h3>Timeline</h3>
-      <div class="timeline card" style="margin-top:12px">
-        <div class="event">
-          <div class="dot"></div>
-          <h4>Building RakshaAI — Aug 2025</h4>
-          <div class="small muted">Developed core SOS, voice trigger, and live location sharing in Kotlin.</div>
-        </div>
-
-        <div class="event">
-          <div class="dot"></div>
-          <h4>MachineScanApp prototype — Jul 2025</h4>
-          <div class="small muted">Offline OCR, auto-folderization, and prototype testing with Tesseract & OpenCV.</div>
-        </div>
-
-        <div class="event">
-          <div class="dot"></div>
-          <h4>NovaTech.AI site & projects — 2025</h4>
-          <div class="small muted">Startup website & portfolio deployment to GitHub Pages.</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- CONTACT -->
-    <section id="contact" class="reveal">
-      <h3>Contact</h3>
-      <p class="small muted">Let's collaborate — internships, freelance, or project ideas.</p>
-
-      <div class="contact-grid" style="margin-top:12px">
-        <div class="card">
-          <form id="contactForm" onsubmit="onContact(event)" novalidate>
-            <label for="cname">Name</label>
-            <input id="cname" required placeholder="Your name" />
-
-            <label for="cemail" style="margin-top:8px">Email</label>
-            <input id="cemail" type="email" required placeholder="you@company.com" />
-
-            <label for="cmsg" style="margin-top:8px">Message</label>
-            <textarea id="cmsg" rows="5" required placeholder="Tell me about the project or opportunity"></textarea>
-
-            <div style="display:flex; gap:8px; margin-top:10px">
-              <button class="btn" type="submit">Send Message</button>
-              <a class="btn btn-ghost" href="mailto:riteshpagare03@gmail.com?subject=Hello%20Ritesh">Email Me</a>
-            </div>
-            <div id="formNote" class="small muted" style="margin-top:8px">If JS email isn't configured, the mailto fallback will open your email client.</div>
-          </form>
-        </div>
-
-        <aside class="card">
-          <div style="font-weight:900">Get in touch</div>
-          <div class="small muted" style="margin-top:8px"><strong>Email:</strong> riteshpagare03@gmail.com</div>
-          <div class="small muted"><strong>Phone:</strong> +91 (add number)</div>
-          <div style="margin-top:12px" class="small muted">Replace social links with your real GitHub/LinkedIn/Instagram profiles.</div>
-        </aside>
-      </div>
-    </section>
-
-    <footer class="reveal">
-      <div>Made with ❤ by <strong>Ritesh Pagare</strong> — AI Specialist</div>
-      <div class="small muted">© <span id="year"></span> • Nashik, India</div>
-    </footer>
-  </div>
-
-  <!-- Project modal (single, reused) -->
-  <div id="modalBack" class="modal-back" aria-hidden="true">
-    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-      <div style="display:flex; justify-content:space-between; gap:12px; align-items:start">
-        <div>
-          <h3 id="modalTitle">Project</h3>
-          <div id="modalMeta" class="meta">Project subtitle</div>
-        </div>
-        <div style="display:flex; gap:8px">
-          <button class="close" onclick="closeModal()">Close</button>
-        </div>
-      </div>
-
-      <div id="modalBody" style="margin-top:12px; color:var(--muted)">Project details appear here.</div>
-      <div style="margin-top:12px; display:flex; gap:8px">
-        <a id="modalLink" class="btn" href="#" target="_blank">Open Demo</a>
-        <a id="modalCode" class="btn btn-ghost" href="#" target="_blank">View Code</a>
-      </div>
-    </div>
-  </div>
-
-<script>
-/* ===================== helper + UX ===================== */
-document.getElementById('year').textContent = new Date().getFullYear();
-function notifyPlaceholder(){ alert('Replace placeholder links with your real demo or repository URLs.'); }
-
-/* ----------------- Typewriter rotate ----------------- */
-const phrases = ["Building intelligent systems.", "Turning prototypes into products.", "Computer Vision • Android • Robotics."];
-let pIndex = 0, tIndex = 0;
-const typedEl = document.getElementById('typed');
-
-function typeTick(){
-  const phrase = phrases[pIndex];
-  typedEl.textContent = phrase.slice(0, tIndex);
-  tIndex++;
-  if(tIndex > phrase.length){
-    setTimeout(()=>{ tIndex = 0; pIndex = (pIndex+1)%phrases.length; typeTick(); }, 1200);
-  } else {
-    setTimeout(typeTick, 50);
-  }
-}
-typeTick();
-
-/* ----------------- Intersection reveal ----------------- */
-const io = new IntersectionObserver((items)=>{
-  items.forEach(i=>{
-    if(i.isIntersecting){ i.target.classList.add('in'); io.unobserve(i.target); }
-  });
-},{threshold:0.12});
-document.querySelectorAll('.reveal').forEach(el => io.observe(el));
-
-/* ----------------- Skill bar animation ----------------- */
-document.querySelectorAll('.bar i').forEach(el=>{
-  const w = el.getAttribute('data-width') || '70%';
-  setTimeout(()=> el.style.width = w, 600);
-});
-/* circular skill animation */
-const circ = document.getElementById('circ');
-const circleLen = 100; // map percentage to stroke-dash
-if(circ){
-  circ.style.strokeDasharray = '0 1000';
-  setTimeout(()=> {
-    const pct = 88; // change to your overall skill %
-    const dash = (pct/100)*1000;
-    circ.style.strokeDasharray = dash + ' 1000';
-    circ.style.transition = 'stroke-dasharray 1200ms cubic-bezier(.2,.9,.25,1)';
-  }, 700);
-}
-
-/* ----------------- Modal project details ----------------- */
-const projects = {
-  raksha: {
-    title: 'RakshaAI — Women Safety App',
-    meta: 'Kotlin • Android • Live location • SOS',
-    body: `Voice-activated SOS, stealth mode, fake-call, live location sharing and hidden recording. Built with Jetpack Compose. Features include fast emergency workflows and low-power background location.`,
-    demo:'#', code:'#'
-  },
-  machinescan: {
-    title: 'MachineScanApp — OCR Automation',
-    meta: 'Python • OpenCV • Tesseract',
-    body: `Automatic image capture, local OCR using Tesseract, folderization by Machine ID and automated uploads. Designed for workshop and inspection flows.`,
-    demo:'#', code:'#'
-  },
-  novatech: {
-    title: 'NovaTech.AI — Startup Site',
-    meta: 'Web • React • GitHub Pages',
-    body: `Product website for NovaTech.AI with responsive layout and deploy-ready static build. Included CI/CD instructions for GitHub Pages.`,
-    demo:'#', code:'#'
-  }
-};
-
-document.querySelectorAll('[data-open]').forEach(btn=>{
-  btn.addEventListener('click', ()=>{
-    const id = btn.getAttribute('data-open');
-    openModal(id);
-  });
-});
-
-function openModal(id){
-  const p = projects[id];
-  if(!p) return;
-  document.getElementById('modalTitle').textContent = p.title;
-  document.getElementById('modalMeta').textContent = p.meta;
-  document.getElementById('modalBody').textContent = p.body;
-  document.getElementById('modalLink').href = p.demo;
-  document.getElementById('modalCode').href = p.code;
-  const mb = document.getElementById('modalBack');
-  mb.classList.add('open'); mb.setAttribute('aria-hidden','false');
-}
-function closeModal(){ const mb = document.getElementById('modalBack'); mb.classList.remove('open'); mb.setAttribute('aria-hidden','true'); }
-document.getElementById('modalBack').addEventListener('click', (e)=>{ if(e.target.id==='modalBack') closeModal(); });
-
-/* ----------------- 3D tilt (lightweight) ----------------- */
-function attachTilt(root){
-  root.querySelectorAll('[data-tilt]').forEach(el=>{
-    const inner = el.querySelector('.proj-card');
-    let rect;
-    el.addEventListener('mousemove', (ev)=>{
-      rect = el.getBoundingClientRect();
-      const x = (ev.clientX - rect.left) / rect.width - 0.5;
-      const y = (ev.clientY - rect.top) / rect.height - 0.5;
-      const max = parseInt(el.getAttribute('data-tilt-max') || 12);
-      inner.style.transform = `rotateX(${(-y*max).toFixed(2)}deg) rotateY(${(x*max).toFixed(2)}deg) translateZ(6px)`;
-    });
-    el.addEventListener('mouseleave', ()=> inner.style.transform = 'none');
-  });
-}
-attachTilt(document);
-
-/* ----------------- contact form ----------------- */
-function onContact(e){
-  e.preventDefault();
-  const name = document.getElementById('cname').value.trim();
-  const email = document.getElementById('cemail').value.trim();
-  const msg = document.getElementById('cmsg').value.trim();
-  if(!name||!email||!msg){ alert('Please fill all fields'); return; }
-  const subject = encodeURIComponent('Portfolio contact from ' + name);
-  const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${msg}`);
-  window.location.href = `mailto:riteshpagare03@gmail.com?subject=${subject}&body=${body}`;
-}
-
-/* ----------------- particles (canvas) ----------------- */
-(function(){
-  const canvas = document.getElementById('particles');
-  const ctx = canvas.getContext('2d');
-  let W = canvas.width = innerWidth;
-  let H = canvas.height = innerHeight;
-  const N = Math.floor((W*H)/12000); // density
-  const parts = [];
-  function rand(min,max){ return Math.random()*(max-min)+min; }
-  for(let i=0;i<N;i++){
-    parts.push({x:rand(0,W), y:rand(0,H), r:rand(0.4,1.8), vx:rand(-0.2,0.2), vy:rand(-0.2,0.2), life:rand(80,220)});
-  }
-  function resize(){ W=canvas.width=innerWidth; H=canvas.height=innerHeight; }
-  addEventListener('resize', resize);
-  function draw(){
-    ctx.clearRect(0,0,W,H);
-    for(let p of parts){
-      p.x += p.vx; p.y += p.vy;
-      p.life -= 0.2;
-      if(p.x < -10) p.x = W+10; if(p.x > W+10) p.x=-10;
-      if(p.y < -10) p.y = H+10; if(p.y > H+10) p.y=-10;
-      if(p.life < 0){ p.x = rand(0,W); p.y = rand(0,H); p.life = rand(80,220); }
-      ctx.beginPath();
-      const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r*12);
-      g.addColorStop(0, 'rgba(126,240,199,' + (0.18*p.r).toFixed(2) + ')');
-      g.addColorStop(1, 'rgba(110,231,255,0)');
-      ctx.fillStyle = g;
-      ctx.arc(p.x, p.y, p.r*12, 0, Math.PI*2);
-      ctx.fill();
+    body {
+      background: radial-gradient(circle at top, #0f172a 0, #020617 50%, #000 100%);
     }
-    requestAnimationFrame(draw);
-  }
-  draw();
-})();
 
-/* ----------------- subtle hero glow (animated radial) ----------------- */
-(function(){
-  const c = document.getElementById('heroGlow'), ctx = c.getContext('2d');
-  function resize(){ c.width = c.clientWidth || innerWidth; c.height = c.clientHeight || 480; }
-  resize(); addEventListener('resize', resize);
-  let t=0;
-  function gdraw(){
-    ctx.clearRect(0,0,c.width,c.height);
-    const w=c.width, h=c.height;
-    const cx = w*0.18 + Math.sin(t*0.0045)*80;
-    const cy = h*0.38 + Math.cos(t*0.003)*40;
-    const rg = ctx.createRadialGradient(cx,cy,10, cx,cy, Math.max(w,h)*0.9);
-    rg.addColorStop(0, 'rgba(110,231,199,0.06)');
-    rg.addColorStop(0.4,'rgba(110,231,255,0.02)');
-    rg.addColorStop(1,'rgba(2,6,12,0)');
-    ctx.fillStyle = rg;
-    ctx.fillRect(0,0,w,h);
-    t++; requestAnimationFrame(gdraw);
-  }
-  gdraw();
-})();
+    .section-title::after {
+      content: "";
+      display: block;
+      width: 2.5rem;
+      height: 2px;
+      margin-top: 0.35rem;
+      background: linear-gradient(to right, #22d3ee, #38bdf8);
+    }
 
-/* ----------------- small keyboard accessibility: close modal on Esc ----------------- */
-document.addEventListener('keydown', (e)=> {
-  if(e.key==='Escape') closeModal();
-});
+    .glass {
+      background: linear-gradient(135deg, rgba(15,23,42,0.95), rgba(15,23,42,0.75));
+      border: 1px solid rgba(148,163,184,0.5);
+      backdrop-filter: blur(18px);
+    }
 
-/* ----------------- progressive enhancement: open resume in new tab if exists ----------------- */
-document.getElementById('resumeBtn').addEventListener('click', (e)=>{
-  // default anchor handles download if resume.pdf exists. Keep as is.
-});
-</script>
+    /* Page handling */
+    .page-section {
+      opacity: 0;
+      transform: translateY(24px);
+      pointer-events: none;
+      position: absolute;
+      inset: 0;
+      padding-top: 4rem; /* below navbar */
+      padding-bottom: 2rem;
+      overflow-y: auto;
+    }
+    .page-active {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+      position: relative;
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    /* Typewriter */
+    .typing-cursor::after {
+      content: "|";
+      margin-left: 2px;
+      animation: blink 1s step-start infinite;
+    }
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+
+    .card-glow {
+      transition: box-shadow 0.3s ease, border-color 0.3s ease, transform 0.2s ease;
+    }
+    .card-glow:hover {
+      box-shadow: 0 0 30px rgba(56,189,248,0.35);
+      border-color: rgba(56,189,248,0.9);
+      transform: translateY(-3px);
+    }
+
+    .next-btn:hover {
+      transform: translateX(4px);
+    }
+  </style>
+</head>
+<body class="text-slate-100">
+
+  <!-- NAVBAR (just shows progress + logo, pages controlled by JS) -->
+  <header class="border-b border-slate-800/80 bg-slate-950/80 backdrop-blur-lg sticky top-0 z-30">
+    <nav class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between text-sm">
+      <div class="flex items-center gap-2">
+        <div class="h-8 w-8 rounded-2xl bg-cyan-500/20 border border-cyan-400 flex items-center justify-center">
+          <span class="text-xs font-bold tracking-tight text-cyan-300">RP</span>
+        </div>
+        <div class="leading-tight">
+          <p class="font-semibold tracking-tight text-sm">Ritesh Pagare</p>
+          <p class="text-[11px] text-slate-400">Automation · AI · Cyber · Innovation</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3 text-[11px] text-slate-400">
+        <span id="step-label">Step 1 of 6 · Overview</span>
+      </div>
+    </nav>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 relative min-h-[calc(100vh-3rem)]">
+
+    <!-- ========== PAGE 1: HERO ========== -->
+    <section class="page-section page-active" data-page="1" id="page-1">
+      <div class="py-8 md:py-12 flex flex-col gap-8">
+        <div class="flex flex-wrap items-center justify-between gap-3 text-[11px] text-slate-400">
+          <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-slate-700/80 bg-slate-900/60">
+            <span class="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            Open to internships, freelance & collaborations
+          </span>
+          <span>Based in Nashik · India</span>
+        </div>
+
+        <div class="grid md:grid-cols-[minmax(0,3fr)_minmax(0,2.2fr)] gap-8 items-center">
+          <!-- Left -->
+          <div class="space-y-5">
+            <p class="text-xs tracking-[0.3em] uppercase text-slate-400">
+              Engineering the Future with Innovation & Versatility
+            </p>
+
+            <div class="space-y-3">
+              <h1 class="text-3xl md:text-5xl font-semibold tracking-tight">
+                Engineering intelligent systems<br />
+                for the next era of <span class="text-cyan-300">automation</span>.
+              </h1>
+              <p class="text-sm md:text-base text-slate-300 max-w-xl">
+                I’m <span class="font-medium text-slate-100">Ritesh Nilesh Pagare</span>, an
+                Automation & Robotics Engineering student blending
+                <span class="text-cyan-300">industrial automation, AI/ML, app & web development,
+                cybersecurity, and creative digital media</span> to build future-ready solutions.
+              </p>
+            </div>
+
+            <div class="flex flex-wrap gap-3 text-sm">
+              <button data-next="2"
+                      class="px-4 py-2 rounded-full bg-cyan-500 text-slate-950 font-medium hover:bg-cyan-400 transition">
+                Start Journey
+              </button>
+              <button data-next="4"
+                      class="px-4 py-2 rounded-full border border-slate-700 hover:border-cyan-400 hover:text-cyan-300 transition">
+                Skip to Projects
+              </button>
+            </div>
+
+            <div class="grid sm:grid-cols-2 gap-4 text-xs text-slate-300">
+              <div>
+                <p class="text-slate-400 mb-1">Current focus</p>
+                <p>Automation, AI dashboards, safety apps, ethical hacking, and inspection tools.</p>
+              </div>
+              <div>
+                <p class="text-slate-400 mb-1">Contact</p>
+                <p>
+                  <a href="mailto:riteshpagare03@gmail.com" class="text-cyan-300 hover:underline">
+                    riteshpagare03@gmail.com
+                  </a><br />
+                  <a href="https://www.linkedin.com/in/riteshpagare" target="_blank"
+                     class="text-cyan-300 hover:underline">
+                    linkedin.com/in/riteshpagare
+                  </a>
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right -->
+          <div class="relative">
+            <div class="glass rounded-3xl p-5 md:p-6 card-glow">
+              <p class="text-[11px] uppercase tracking-[0.25em] text-slate-400 mb-3">
+                Roles
+              </p>
+              <p class="text-sm font-medium text-slate-100 mb-2">
+                <span id="typed-role" class="typing-cursor"></span>
+              </p>
+
+              <div class="grid grid-cols-2 gap-3 text-[11px] text-slate-300 mb-4">
+                <div class="border border-slate-700 rounded-2xl p-3">
+                  <p class="text-slate-400 mb-1">Core Domains</p>
+                  <p>Automation · Robotics · Industry 4.0 · PLC · 3D Printing</p>
+                </div>
+                <div class="border border-slate-700 rounded-2xl p-3">
+                  <p class="text-slate-400 mb-1">AI & Cyber</p>
+                  <p>AI/ML · Deep Learning · Ethical Hacking · Cyber Warfare basics</p>
+                </div>
+                <div class="border border-slate-700 rounded-2xl p-3">
+                  <p class="text-slate-400 mb-1">Development</p>
+                  <p>Android · Flutter · Kotlin · Java · Web · OCR</p>
+                </div>
+                <div class="border border-slate-700 rounded-2xl p-3">
+                  <p class="text-slate-400 mb-1">Creative & Ops</p>
+                  <p>Graphics · Content · Social Media · Events · Leadership</p>
+                </div>
+              </div>
+
+              <p class="text-[11px] text-slate-400">
+                “I enjoy designing systems that are technically strong, security-aware,
+                and easy to understand.”
+              </p>
+            </div>
+
+            <div class="absolute -z-10 -right-10 -bottom-10 h-40 w-40 rounded-full bg-cyan-500/25 blur-3xl opacity-70"></div>
+          </div>
+        </div>
+
+        <div class="flex justify-end">
+          <button data-next="2"
+                  class="next-btn inline-flex items-center gap-2 text-[11px] text-slate-400 hover:text-cyan-300 transition">
+            Next: About
+            <span>↦</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== PAGE 2: ABOUT ========== -->
+    <section class="page-section" data-page="2" id="page-2">
+      <div class="py-8 md:py-12">
+        <div class="flex items-center justify-between gap-3 mb-6">
+          <h2 class="section-title text-lg md:text-xl font-semibold">About</h2>
+          <span class="text-[11px] text-slate-400">Step 2 of 6</span>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-8 text-sm md:text-[0.95rem] text-slate-300">
+          <p>
+            I work at the intersection of
+            <span class="text-cyan-300">industrial automation, AI-powered systems, app development,
+            cybersecurity awareness, and digital experiences</span>. I enjoy turning rough ideas into
+            functional prototypes that are practical, efficient, and secure.
+          </p>
+          <p>
+            My work includes <span class="text-cyan-300">OCR-based inspection tools, women safety apps, billing systems,
+            AI dashboards, prompt engineering, and content-driven branding</span>. Beyond building systems,
+            I’m involved in photography, event coordination, sponsorship, and social media for tech events.
+          </p>
+        </div>
+
+        <div class="mt-6 grid sm:grid-cols-3 gap-4 text-xs text-slate-300">
+          <div class="glass rounded-2xl p-4 border border-slate-700 card-glow">
+            <p class="text-slate-400 mb-1 text-[11px] uppercase tracking-[0.2em]">Current roles</p>
+            <ul class="space-y-1">
+              <li>• Event Coordinator – SITRC</li>
+              <li>• Team Narasimha – SAEINDIA TIFAN</li>
+              <li>• Robocreator Club – Graphics, Photography, Social Media</li>
+              <li>• Freelance Web & App Developer</li>
+            </ul>
+          </div>
+          <div class="glass rounded-2xl p-4 border border-slate-700 card-glow">
+            <p class="text-slate-400 mb-1 text-[11px] uppercase tracking-[0.2em]">Mindset</p>
+            <p>
+              Curious, systems-thinking, security-aware, focused on
+              <span class="text-cyan-300">real-world impact</span> and user experience, not just theory.
+            </p>
+          </div>
+          <div class="glass rounded-2xl p-4 border border-slate-700 card-glow">
+            <p class="text-slate-400 mb-1 text-[11px] uppercase tracking-[0.2em]">Strengths</p>
+            <p>
+              Problem solving, research thinking, communication, teamwork, leadership,
+              event logistics, and presentation.
+            </p>
+          </div>
+        </div>
+
+        <div class="flex justify-end mt-6">
+          <button data-next="3"
+                  class="next-btn inline-flex items-center gap-2 text-[11px] text-slate-400 hover:text-cyan-300 transition">
+            Next: Skills & Capabilities
+            <span>↦</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== PAGE 3: SKILLS ========== -->
+    <section class="page-section" data-page="3" id="page-3">
+      <div class="py-8 md:py-12">
+        <div class="flex items-center justify-between gap-3 mb-6">
+          <h2 class="section-title text-lg md:text-xl font-semibold">Skills & Capabilities</h2>
+          <span class="text-[11px] text-slate-400">Step 3 of 6</span>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-5 text-xs text-slate-300">
+          <div class="glass rounded-2xl p-4 border border-slate-700 card-glow">
+            <h3 class="text-[11px] font-semibold uppercase text-slate-400 mb-2">Engineering & Automation</h3>
+            <ul class="space-y-1">
+              <li>• Industrial automation, PLC, smart systems</li>
+              <li>• Robotics, mechatronics, Industry 4.0</li>
+              <li>• Process mining, RPA</li>
+              <li>• 3D printing, SolidWorks</li>
+              <li>• R&D mindset, analytical skills</li>
+            </ul>
+          </div>
+
+          <div class="glass rounded-2xl p-4 border border-slate-700 card-glow">
+            <h3 class="text-[11px] font-semibold uppercase text-slate-400 mb-2">AI · Cyber · Development</h3>
+            <ul class="space-y-1">
+              <li>• AI, ML, deep learning foundations</li>
+              <li>• Prompt engineering, effective & advanced ChatGPT usage</li>
+              <li>• AI-powered interactive dashboards, data analysis with AI</li>
+              <li>• App & web dev: Android Studio, Flutter, Kotlin, Java, XML, HTML, CSS</li>
+              <li>• Ethical hacking, cyber security awareness, cyber warfare concepts</li>
+            </ul>
+          </div>
+
+          <div class="glass rounded-2xl p-4 border border-slate-700 card-glow">
+            <h3 class="text-[11px] font-semibold uppercase text-slate-400 mb-2">Creative · Tools · Communication</h3>
+            <ul class="space-y-1">
+              <li>• Photography, graphics design, content & social media</li>
+              <li>• Google Ads, Google Ads Editor, Power BI</li>
+              <li>• Microsoft 365, Outlook, digital tools</li>
+              <li>• Leadership, teamwork, event logistics, volunteering</li>
+              <li>• Research thinking, technical communication, presentation skills</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="flex justify-end mt-6">
+          <button data-next="4"
+                  class="next-btn inline-flex items-center gap-2 text-[11px] text-slate-400 hover:text-cyan-300 transition">
+            Next: Projects
+            <span>↦</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== PAGE 4: PROJECTS ========== -->
+    <section class="page-section" data-page="4" id="page-4">
+      <div class="py-8 md:py-12">
+        <div class="flex items-center justify-between gap-3 mb-6">
+          <h2 class="section-title text-lg md:text-xl font-semibold">Selected Projects</h2>
+          <span class="text-[11px] text-slate-400">Step 4 of 6</span>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-5 text-sm text-slate-300">
+
+          <article class="glass rounded-2xl p-4 border border-slate-700 card-glow">
+            <p class="text-[11px] uppercase tracking-[0.18em] text-slate-400 mb-1">Safety · Mobile · AI Logic</p>
+            <h3 class="font-semibold text-slate-50 mb-1">RakshaAI – Women Safety & SOS App</h3>
+            <p class="text-xs mb-1 text-slate-400">Android · Kotlin · Location · SMS · Stealth UX</p>
+            <p class="text-xs">
+              Voice-triggered SOS, live location sharing, auto-SMS & call flow, and stealth behaviour
+              designed to help users raise discrete alerts during unsafe situations.
+            </p>
+          </article>
+
+          <article class="glass rounded-2xl p-4 border border-slate-700 card-glow">
+            <p class="text-[11px] uppercase tracking-[0.18em] text-slate-400 mb-1">Automation · OCR · Inspection</p>
+            <h3 class="font-semibold text-slate-50 mb-1">Machine Plate OCR Scanner</h3>
+            <p class="text-xs mb-1 text-slate-400">Python · OpenCV · Tesseract · File Automation</p>
+            <p class="text-xs">
+              Captures machine plates, reads IDs using OCR, and auto-sorts images into structured folders
+              for quality inspection and audits.
+            </p>
+          </article>
+
+          <article class="glass rounded-2xl p-4 border border-slate-700 card-glow">
+            <p class="text-[11px] uppercase tracking-[0.18em] text-slate-400 mb-1">Web · Branding · AI</p>
+            <h3 class="font-semibold text-slate-50 mb-1">NovaTech.AI – Solutions Website</h3>
+            <p class="text-xs mb-1 text-slate-400">Web · React / HTML · UI · Brand System</p>
+            <p class="text-xs">
+              Brand presence for AI solutions, safety tools, automation products, and future cybersecurity services
+              with a clean, futuristic UI.
+            </p>
+          </article>
+
+          <article class="glass rounded-2xl p-4 border border-slate-700 card-glow">
+            <p class="text-[11px] uppercase tracking-[0.18em] text-slate-400 mb-1">Business · Utilities</p>
+            <h3 class="font-semibold text-slate-50 mb-1">Billing & Quality Inspection Utilities</h3>
+            <p class="text-xs mb-1 text-slate-400">Desktop tools · Automation mindset</p>
+            <p class="text-xs">
+              Lightweight tools that simplify billing and inspection workflows, designed
+              with clear UI, speed, and reliability.
+            </p>
+          </article>
+        </div>
+
+        <div class="flex justify-end mt-6">
+          <button data-next="5"
+                  class="next-btn inline-flex items-center gap-2 text-[11px] text-slate-400 hover:text-cyan-300 transition">
+            Next: Journey
+            <span>↦</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== PAGE 5: JOURNEY ========== -->
+    <section class="page-section" data-page="5" id="page-5">
+      <div class="py-8 md:py-12">
+        <div class="flex items-center justify-between gap-3 mb-6">
+          <h2 class="section-title text-lg md:text-xl font-semibold">Journey</h2>
+          <span class="text-[11px] text-slate-400">Step 5 of 6</span>
+        </div>
+
+        <div class="space-y-4 text-sm text-slate-300 relative pl-4">
+          <div class="absolute left-1 top-1 bottom-1 border-l border-slate-700/80"></div>
+
+          <div class="relative pl-4">
+            <div class="absolute -left-1 top-1 h-2 w-2 rounded-full bg-cyan-400"></div>
+            <p class="text-[11px] text-slate-400">2024 – Present · SITRC</p>
+            <p class="font-medium text-slate-100">Event Coordinator</p>
+            <p class="text-xs mt-1">
+              Coordinating technical events, managing logistics, leading teams, and ensuring
+              smooth execution with clear communication and planning.
+            </p>
+          </div>
+
+          <div class="relative pl-4">
+            <div class="absolute -left-1 top-1 h-2 w-2 rounded-full bg-cyan-400"></div>
+            <p class="text-[11px] text-slate-400">2024 – Present · SAEINDIA TIFAN · Team Narasimha</p>
+            <p class="font-medium text-slate-100">Team Member – Sponsorship & Tech</p>
+            <p class="text-xs mt-1">
+              Contributing to sponsorships, documentation, operations, and engineering decisions
+              for competitive agricultural/automotive solutions.
+            </p>
+          </div>
+
+          <div class="relative pl-4">
+            <div class="absolute -left-1 top-1 h-2 w-2 rounded-full bg-cyan-400"></div>
+            <p class="text-[11px] text-slate-400">2024 – Present · Robocreator Club</p>
+            <p class="font-medium text-slate-100">Creative & Technical Contributor</p>
+            <p class="text-xs mt-1">
+              Handling graphics, photography, event promotion, and social media for robotics
+              and innovation activities.
+            </p>
+          </div>
+
+          <div class="relative pl-4">
+            <div class="absolute -left-1 top-1 h-2 w-2 rounded-full bg-cyan-400"></div>
+            <p class="text-[11px] text-slate-400">2022 – Present · Freelance</p>
+            <p class="font-medium text-slate-100">Web & App Developer</p>
+            <p class="text-xs mt-1">
+              Building custom apps and websites with Android, Flutter, and web tech, focusing on
+              performance, clear UX, and automation.
+            </p>
+          </div>
+        </div>
+
+        <div class="flex justify-end mt-6">
+          <button data-next="6"
+                  class="next-btn inline-flex items-center gap-2 text-[11px] text-slate-400 hover:text-cyan-300 transition">
+            Next: Contact
+            <span>↦</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== PAGE 6: CONTACT ========== -->
+    <section class="page-section" data-page="6" id="page-6">
+      <div class="py-8 md:py-12 mb-6">
+        <div class="flex items-center justify-between gap-3 mb-6">
+          <h2 class="section-title text-lg md:text-xl font-semibold">Contact</h2>
+          <span class="text-[11px] text-slate-400">Step 6 of 6</span>
+        </div>
+
+        <div class="glass rounded-3xl p-6 md:p-7 border border-slate-700">
+          <div class="grid md:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] gap-6 items-start">
+            <div class="space-y-3 text-sm text-slate-300">
+              <p class="text-base font-medium text-slate-100">
+                Let’s build something smart, secure, and future-ready.
+              </p>
+              <p>
+                Whether it’s automation, AI, dashboards, safety tools, or digital products that
+                need both engineering and creativity, I’d love to collaborate.
+              </p>
+              <div class="space-y-1 text-sm">
+                <p>
+                  Email:
+                  <a href="mailto:riteshpagare03@gmail.com" class="text-cyan-300 hover:underline">
+                    riteshpagare03@gmail.com
+                  </a>
+                </p>
+                <p>
+                  LinkedIn:
+                  <a href="https://www.linkedin.com/in/riteshpagare" target="_blank"
+                     class="text-cyan-300 hover:underline">
+                    linkedin.com/in/riteshpagare
+                  </a>
+                </p>
+              </div>
+            </div>
+
+            <form class="space-y-3 text-sm">
+              <div>
+                <label class="block text-slate-300 mb-1">Name</label>
+                <input type="text" placeholder="Your name"
+                       class="w-full px-3 py-2 rounded-xl bg-slate-950/70 border border-slate-700 focus:outline-none focus:border-cyan-400" />
+              </div>
+              <div>
+                <label class="block text-slate-300 mb-1">Email</label>
+                <input type="email" placeholder="you@example.com"
+                       class="w-full px-3 py-2 rounded-xl bg-slate-950/70 border border-slate-700 focus:outline-none focus:border-cyan-400" />
+              </div>
+              <div>
+                <label class="block text-slate-300 mb-1">Message</label>
+                <textarea rows="3" placeholder="Tell me about your project or idea..."
+                          class="w-full px-3 py-2 rounded-xl bg-slate-950/70 border border-slate-700 focus:outline-none focus:border-cyan-400"></textarea>
+              </div>
+              <button type="submit"
+                      class="px-4 py-2 rounded-full bg-cyan-500 text-slate-950 font-medium text-sm hover:bg-cyan-400 transition">
+                Send (demo)
+              </button>
+            </form>
+          </div>
+
+          <div class="mt-5 text-[11px] text-slate-400 text-right">
+            <button data-next="1" class="hover:text-cyan-300 transition">
+              ← Back to start
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="border-t border-slate-800/80 text-[11px] text-slate-500 py-3 text-center">
+    © <span id="year"></span> Ritesh Pagare · “Engineering the Future with Innovation & Versatility.”
+  </footer>
+
+  <!-- ========== SCRIPTS: typewriter + page controller ========== -->
+  <script>
+    // Typewriter for roles
+    const roles = [
+      "Automation & Robotics Engineer",
+      "AI & App Developer",
+      "Cybersecurity & Ethical Hacking Enthusiast",
+      "Prompt Engineer & Advanced ChatGPT User",
+      "Digital Creator & Event Coordinator"
+    ];
+
+    const typedEl = document.getElementById("typed-role");
+    let rIndex = 0;
+    let cIndex = 0;
+    let deleting = false;
+
+    function typeLoop() {
+      const current = roles[rIndex];
+      if (!deleting) {
+        typedEl.textContent = current.slice(0, cIndex + 1);
+        cIndex++;
+        if (cIndex === current.length) {
+          deleting = true;
+          setTimeout(typeLoop, 1400);
+          return;
+        }
+      } else {
+        typedEl.textContent = current.slice(0, cIndex - 1);
+        cIndex--;
+        if (cIndex === 0) {
+          deleting = false;
+          rIndex = (rIndex + 1) % roles.length;
+        }
+      }
+      setTimeout(typeLoop, deleting ? 45 : 90);
+    }
+    typeLoop();
+
+    // Page controller
+    const sections = document.querySelectorAll(".page-section");
+    const stepLabel = document.getElementById("step-label");
+    const totalSteps = sections.length;
+
+    function setPage(page) {
+      sections.forEach(sec => {
+        const p = Number(sec.getAttribute("data-page"));
+        if (p === page) {
+          sec.classList.add("page-active");
+        } else {
+          sec.classList.remove("page-active");
+        }
+      });
+
+      const labels = {
+        1: "Step 1 of 6 · Overview",
+        2: "Step 2 of 6 · About",
+        3: "Step 3 of 6 · Skills & Capabilities",
+        4: "Step 4 of 6 · Projects",
+        5: "Step 5 of 6 · Journey",
+        6: "Step 6 of 6 · Contact"
+      };
+      stepLabel.textContent = labels[page] || `Step ${page} of ${totalSteps}`;
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    document.querySelectorAll("[data-next]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const target = Number(btn.getAttribute("data-next"));
+        if (!isNaN(target)) {
+          setPage(target);
+        }
+      });
+    });
+
+    // Year
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
